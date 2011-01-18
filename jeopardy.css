@@ -1,0 +1,801 @@
+
+/*
+
+Copyright © 2010-2011 Jesse McCarthy <http://jessemccarthy.net/>
+
+This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!" is a trademark of Jeopardy Productions, Inc.  This software is not endorsed by, sponsored by, or affiliated with Jeopardy Productions, Inc.
+
+This software may be used under the MIT (aka X11) license or Simplified BSD
+(aka FreeBSD) license.  See LICENSE.
+
+*/
+
+
+body {
+
+  background-color: #E5E5E5;
+
+  color: #000000;
+
+  font-family: "Verdana", "Arial", sans-serif;
+
+  font-size: 1em;
+
+  margin: 0;
+
+  padding: 0 0 1em;
+
+}
+
+
+#primary_layout {
+
+  width: 50em;
+
+  margin: 0 auto;
+
+  position: relative;
+
+}
+
+
+#primary_document_heading {
+
+  font-size: 1em;
+
+  font-weight: bold;
+
+  margin: 0;
+
+  padding: 0.5em;
+
+  background-color: #262626;
+
+  color: #FFFFFF;
+
+}
+
+
+#game_ui {
+
+  position: relative;
+
+  margin: 0.5em 0 0;
+
+}
+
+
+#game_ui:after {
+
+  content: "*";
+
+  font-size: 0;
+
+  display: block;
+
+  height: 0;
+
+  clear: both;
+
+  overflow: hidden;
+
+}
+
+
+#game_ui > .column {
+
+  float: left;
+
+  min-height: 0.1em;
+
+}
+
+
+#game_ui > #column-game_controls {
+
+  width: 35%;
+
+}
+
+
+#game_ui > #column-board {
+
+  width: 35%;
+
+}
+
+
+#game_ui > #column-round_and_players {
+
+  width: 28%;
+
+}
+
+
+#board {
+
+  margin: 0 auto;
+
+  padding: 0;
+
+  list-style-type: none;
+
+  width: 6em;
+
+  font-size: 1.5em;
+
+  text-align: center;
+
+}
+
+
+#board .column {
+
+  list-style-type: none;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+
+#board .cell {
+
+  margin: 0 0 1px;
+
+}
+
+
+#board .cell button {
+
+  padding: 2em 0;
+
+  background-color: #606080;
+
+  color: #BFBFBF;
+
+  cursor: default;
+
+  display: block;
+
+  width: 100%;
+
+}
+
+
+#board .cell button:focus {
+
+  background-color: #6060BF;
+
+}
+
+
+#board.enabled .cell.enabled button {
+
+  cursor: pointer;
+
+  background-color: #00007F;
+
+  color: #FFD400;
+
+}
+
+
+#board.enabled .cell.enabled button:hover,
+#board.enabled .cell.enabled button:focus {
+
+  background-color: #0000FF;
+
+}
+
+
+#round_and_players .section .primary_section_heading {
+
+  font-size: 1.4em;
+
+  margin: 0 0 1em;
+
+  padding: 0;
+
+}
+
+
+#players {
+
+  min-width: 14em;
+
+}
+
+
+#players .player {
+
+  margin: 0 0 1em;
+
+  font-size: 1.2em;
+
+  padding: 1em;
+
+}
+
+
+#players .player:hover {
+
+  background-color: #99CCFF;
+
+}
+
+
+#players .player.has_control {
+
+  background-color: #FFFF99;
+
+}
+
+
+
+#players .player .name,
+#players .player .score {
+
+  width: 8.5em;
+
+}
+
+
+#players .player .name input,
+#players .player .score input {
+
+  font-size: 1em;
+
+  border-style: none;
+
+  display: block;
+
+  width: 100%;
+
+  background-color: transparent;
+
+}
+
+
+#players .player .name {
+
+  border: 1px #000000;
+
+  border-style: none none solid;
+
+}
+
+
+#players .player .score {
+
+  text-align: left;
+
+}
+
+
+#players .player .score input {
+
+  text-align: right;
+
+  font-size: 1.4em;
+
+}
+
+
+#players .player .delete,
+#players .player .set_has_control {
+
+  font-size: 0.8em;
+
+  text-align: left;
+
+  margin: 0.5em 0 0;
+
+}
+
+
+#players .player:hover .set_has_control a {
+
+  color: #0000FF;
+
+}
+
+
+#players .player:hover .set_has_control a:hover {
+
+  color: #FF0000;
+
+}
+
+
+#players .player:hover .set_has_control {
+
+  visibility: visible;
+
+}
+
+
+#players .player .set_has_control,
+#players .player.has_control .set_has_control {
+
+  visibility: hidden;
+
+}
+
+
+
+
+
+.dialog {
+
+  width: 20.5em;
+
+  padding: 2em 4em;
+
+  display: none;
+
+  position: absolute;
+
+  margin: 0 auto;
+
+  left: 10.5em;
+
+  top: 4em;
+
+  background-color: #FFFFFF;
+
+  border: #7F7F7F solid 0.5em;
+
+}
+
+
+.dialog .prompt {
+
+  margin: 0 0 1em;
+
+}
+
+
+button {
+
+  font-family: inherit;
+
+  font-size: 1em;
+
+  border-style: none;
+
+}
+
+
+button::-moz-focus-inner {
+
+  border-style: none;
+
+}
+
+
+.dialog button {
+
+  cursor: pointer;
+
+  width: 9em;
+
+  display: inline-block;
+
+  padding: 2em 0;
+
+  color: #FFFFFF;
+
+  background-color: #000000;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  margin: 0 0.5em 1em;
+
+}
+
+
+.dialog button:hover,
+.dialog button:focus {
+
+  background-color: #303030;
+
+}
+
+
+.dialog button .label {
+
+  padding: 0.25em 0;
+
+}
+
+
+.dialog button:focus .label {
+
+  border: 1px #FFFFFF;
+
+  border-style: solid none;
+
+}
+
+
+.dialog button.right {
+
+  background-color: #007F00;
+
+}
+
+
+.dialog button.right:hover,
+.dialog button.right:focus {
+
+  background-color: #00AF00;
+
+}
+
+
+.dialog button.wrong {
+
+  background-color: #7F0000;
+
+}
+
+
+.dialog button.wrong:hover,
+.dialog button.wrong:focus {
+
+  background-color: #AF0000;
+
+}
+
+
+.dialog button.skip {
+
+  background-color: #805600;
+
+}
+
+
+.dialog button.skip:hover,
+.dialog button.skip:focus {
+
+  background-color: #B07500;
+
+}
+
+
+#clue_dialog button.daily_double {
+
+  background-color: #00007F;
+
+}
+
+
+#clue_dialog button.daily_double:hover,
+#clue_dialog button.daily_double:focus {
+
+  background-color: #0000AF;
+
+}
+
+
+#clue_dialog .prompt,
+#daily_double_dialog .prompt,
+#final_jeopardy_dialog .prompt {
+
+  text-align: center;
+
+  font-size: 2em;
+
+  padding-right: 0.5em;
+
+  margin-top: -0.25em;
+
+}
+
+
+#daily_double_dialog #wager_form {
+
+  margin: 0 0 2em;
+
+}
+
+
+#daily_double_dialog #wager_form,
+#daily_double_dialog #wager_form input[type="text"] {
+
+  font-size: 1.2em;
+
+}
+
+
+#daily_double_dialog #wager_form .data_field {
+
+  margin: 0 0 0.5em;
+
+  padding: 0.5em 0;
+
+}
+
+
+#daily_double_dialog #wager_form .data_field.selected {
+
+  background-color: #FFFF99;
+
+}
+
+
+#daily_double_dialog #wager_form .data_field.focused {
+
+  background-color: #99CCFF;
+
+}
+
+
+#final_jeopardy_dialog {
+
+  width: 30em;
+
+  text-align: center;
+
+}
+
+
+#final_jeopardy_dialog .players_table {
+
+  text-align: left;
+
+  margin: 0 0 1em;
+
+}
+
+
+#final_jeopardy_dialog .players_table th {
+
+  font-size: 0.9em;
+
+  padding: 0.5em 0.5em 0.5em 0;
+
+  text-align: left;
+
+}
+
+
+#final_jeopardy_dialog .players input[type="text"] {
+
+  font-size: 1em;
+
+}
+
+
+#final_jeopardy_dialog td.score,
+#final_jeopardy_dialog td.score input[type="text"] {
+
+  text-align: right;
+
+}
+
+
+#final_jeopardy_dialog td.correct {
+
+  text-align: center;
+
+}
+
+
+#final_jeopardy_dialog td.correct .right {
+
+  background-color: #99FF99;
+
+  padding: 0.5em;
+
+  display: inline-block;
+
+}
+
+
+#final_jeopardy_dialog td.correct .right.focused {
+
+  background-color: #9999FF;
+
+}
+
+
+#final_jeopardy_dialog button {
+
+  display: none;
+
+}
+
+
+#final_jeopardy_dialog button.enabled {
+
+  display: inline-block;
+
+}
+
+
+#final_jeopardy_dialog button.finish {
+
+  background-color: #007F00;
+
+}
+
+
+#final_jeopardy_dialog button.finish:hover,
+#final_jeopardy_dialog button.finish:focus {
+
+  background-color: #00AF00;
+
+}
+
+
+#final_jeopardy_dialog button.close {
+
+  background-color: #7F0000;
+
+}
+
+
+#final_jeopardy_dialog button.close:hover,
+#final_jeopardy_dialog button.close:focus {
+
+  background-color: #AF0000;
+
+}
+
+
+#final_jeopardy_dialog button.reset {
+
+  background-color: #805600;
+
+}
+
+
+#final_jeopardy_dialog button.reset:hover,
+#final_jeopardy_dialog button.reset:focus {
+
+  background-color: #B07500;
+
+}
+
+
+#game_controls button {
+
+  width: 9em;
+
+  display: inline-block;
+
+  padding: 2em 0;
+
+  color: #FFFFFF;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  margin: 0 0 1em;
+
+}
+
+
+#start_game {
+
+  background-color: #007F00;
+
+}
+
+
+#start_game:hover,
+#start_game:focus {
+
+  background-color: #00AF00;
+
+}
+
+
+#end_game,
+#end_round {
+
+  background-color: #806060;
+
+}
+
+
+#end_game.enabled,
+#end_round.enabled {
+
+  background-color: #7F0000;
+
+}
+
+
+#end_game.enabled:hover,
+#end_round.enabled:hover,
+#end_game.enabled:focus,
+#end_round.enabled:focus{
+
+  background-color: #AF0000;
+
+}
+
+
+#admin_game {
+
+  display: none;
+
+}
+
+
+#admin_game #change_current_player .label {
+
+  margin: 0 0 0.5em;
+
+}
+
+
+#admin_game #daily_doubles_remaining {
+
+  margin: 1em 0;
+
+}
+
+
+#game_config {
+
+  display: block;
+
+}
+
+
+#game_config h1 {
+
+  font-size: 1em;
+
+}
+
+
+#game_config .data_item {
+
+  margin: 0 0 1em;
+
+}
+
+
+#greater_dialog {
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  z-index: 1000;
+
+  display: none;
+
+}
+
+
+#conclusion {
+
+  clear: both;
+
+  padding: 2em 0;
+
+}
+
+
+#fragments {
+
+  display: none;
+
+}
+

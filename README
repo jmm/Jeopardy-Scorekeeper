@@ -1,0 +1,8 @@
+A Jeopardy scorekeeper, for training to be on Jeopardy or playing competitive DVR Jeopardy.  Unobtrusive, object oriented JavaScript / jQuery, keyboard navigation, separate game, player, and UI logic.
+
+This is not designed to support older browsers.  It's been tested mostly in recent versions of Firefox and Safari.  It hasn't been thoroughly tested for cross-browser / platform compatibility.  It also hasn't been tested on mobile devices, but I've tried to make it so that it will work with a resolution such as 480x800 on a device with a full fledged browser (e.g. one that supports jQuery).  A lot of effort has been put into making good keyboard navigation, e.g. for laptops, but I have no idea how well the controls will work on a touchscreen device.
+
+
+January 17, 2011
+
+This software is developed by and Copyright © 2010-2011 Jesse McCarthy <http://www.jessemccarthy.net/>

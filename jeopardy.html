@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Jeopardy Scorekeeper</title>
+
+<!--
+
+Copyright © 2010-2011 Jesse McCarthy <http://jessemccarthy.net/>
+
+This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!" is a trademark of Jeopardy Productions, Inc.  This software is not endorsed by, sponsored by, or affiliated with Jeopardy Productions, Inc.
+
+This software may be used under the MIT (aka X11) license or Simplified BSD
+(aka FreeBSD) license.  See LICENSE.
+
+-->
+
+<meta name="author" content="Jesse McCarthy" />
+
+<meta name="description" content="A Jeopardy scorekeeper, for training to be on Jeopardy or playing competitive DVR Jeopardy.  Unobtrusive, OO JavaScript, jQuery, keyboard navigation, game & player logic separate from UI." />
+
+<meta name="keywords" content="Jeopardy, Jeopardy scorekeeper" />
+
+<script type="text/javascript" src="jquery-1.4.4.min.js"></script>
+
+<script type="text/javascript" src="jeopardy.php.js"></script>
+
+<link rel="stylesheet" type="text/css" media="all" href="jeopardy.css" />
+
+</head>
+
+
+<body>
+
+<div id="primary_layout">
+
+<h1 id="primary_document_heading">
+Jeopardy Scorekeeper
+</h1>
+
+
+<div id="game_ui">
+
+<div class="column" id="game_controls">
+
+<div id="setup_game">
+
+<div id="greater_start_game">
+<button id="start_game" type="button"><span class="label">Start Game</span></button>
+</div>
+
+</div>
+<!-- #setup_game -->
+
+
+<div id="admin_game">
+
+<div id="greater_end_round">
+<button id="end_round" class="enabled" type="button"><span class="label">End Round</span></button>
+</div>
+
+<div id="greater_end_game">
+<button id="end_game" class="enabled" type="button"><span class="label">End Game</span></button>
+</div>
+
+
+<div id="daily_doubles_remaining">
+Daily Doubles Remaining: <span class="count"></span>
+</div>
+
+</div>
+<!-- #admin_game -->
+
+
+<form id="game_config" autocomplete="off">
+
+<h1>
+Configuration
+</h1>
+
+<div class="data_item data_field control_set">
+
+<div class="label_block">
+<label for="config-deduct_incorrect_clue">Deduct on incorrect regular clues</label>
+</div>
+
+<div class="control_block">
+
+<select name="config[deduct_incorrect_clue]" id="config-deduct_incorrect_clue">
+
+<option value="1">Yes</option>
+
+<option value="0">No</option>
+
+</select>
+
+</div>
+<!-- .control_block -->
+
+</div>
+<!-- .data_item -->
+
+
+<div class="data_item data_field control_set">
+
+<div class="label_block">
+<label for="config-deduct_incorrect_daily_double">Deduct on incorrect Daily Doubles</label>
+</div>
+
+<div class="control_block">
+
+<select name="config[deduct_incorrect_daily_double]" id="config-deduct_incorrect_daily_double">
+
+<option value="1">Yes</option>
+
+<option value="0">No</option>
+
+</select>
+
+</div>
+<!-- .control_block -->
+
+</div>
+<!-- .data_item -->
+
+
+<div class="data_item data_field control_set">
+
+<div class="label_block">
+<label for="config-double_jeopardy_change_player_method">Who starts Double Jeopardy</label>
+</div>
+
+<div class="control_block">
+
+<select name="config[double_jeopardy_change_player_method]" id="config-double_jeopardy_change_player_method">
+
+<option value="-1">Lowest Score</option>
+
+<option value="0">Current Player</option>
+
+<option value="1">Highest Score</option>
+
+</select>
+
+</div>
+<!-- .control_block -->
+
+</div>
+<!-- .data_item -->
+
+
+<div class="data_item data_field control_set">
+
+<div class="label_block">
+<label for="ui_config-display_clue_counts">Display clue counts on board</label>
+</div>
+
+<div class="control_block">
+
+<select name="ui_config[display_clue_counts]" id="ui_config-display_clue_counts">
+
+<option value="1">Yes</option>
+
+<option value="0">No</option>
+
+</select>
+
+</div>
+<!-- .control_block -->
+
+</div>
+<!-- .data_item -->
+
+</form>
+<!-- #game_config -->
+
+</div>
+<!-- .column#game_controls -->
+
+
+<div class="column" id="column-board">
+
+<div id="board">
+
+<ul class="column">
+
+</ul>
+<!-- .column -->
+
+</div>
+<!-- #board -->
+
+</div>
+<!-- #column-board -->
+
+
+<div class="column" id="round_and_players">
+
+<div class="section" id="section-round">
+
+<h1 class="primary_section_heading">
+
+</h1>
+
+</div>
+<!-- #section-round -->
+
+
+<div class="section" id="section-players">
+
+<h1 class="primary_section_heading">
+Contestants
+</h1>
+
+<form id="players" autocomplete="off">
+
+</form>
+<!-- #players -->
+
+
+<div class="add_player">
+<a href="">Add Contestant</a>
+</div>
+
+</div>
+<!-- #section-players -->
+
+</div>
+<!-- .column#round_and_players -->
+
+
+
+
+<div id="greater_dialog">
+
+<div class="dialog" id="clue_dialog">
+
+<div class="prompt">
+
+</div>
+<!-- .prompt -->
+
+
+<button class="right" type="button"><span class="label">Right</span></button>
+
+<button class="skip" type="button"><span class="label">Skip</span></button>
+
+<button class="wrong" type="button"><span class="label">Wrong</span></button>
+
+<button class="cancel" type="button"><span class="label">Cancel</span></button>
+
+<button class="daily_double" type="button"><span class="label">Daily Double</span></button>
+
+</div>
+<!-- #clue_dialog -->
+
+
+<div class="dialog" id="daily_double_dialog">
+
+<div class="prompt">
+Daily Double
+</div>
+<!-- .prompt -->
+
+
+<form id="wager_form" autocomplete="off">
+
+<div class="data_field control_set data_field_wager wager-minimum">
+
+<label><input type="radio" name="wager" value="" /> Minimum: <span class="wager"></span></label>
+
+</div>
+<!-- .data_field -->
+
+
+<div class="data_field control_set data_field_wager wager-natural selected">
+
+<label><input type="radio" name="wager" value="" checked="checked" /> Natural Clue Value: <span class="wager"></span></label>
+
+</div>
+<!-- .data_field -->
+
+
+<div class="data_field control_set data_field_wager wager-maximum">
+
+<label><input type="radio" name="wager" value="" /> Maximum: <span class="wager"></span></label>
+
+</div>
+<!-- .data_field -->
+
+
+<div class="data_field control_set data_field_wager wager-true">
+
+<label><input type="radio" name="wager" value="" /> True Daily Double: <span class="wager"></span></label>
+
+</div>
+<!-- .data_field -->
+
+
+<div class="data_field control_set data_field_wager wager-custom">
+
+<label><input type="radio" name="wager" value="" /> Custom: </label>
+
+$<input type="text" name="custom_wager" id="custom_wager" size="6" />
+
+</div>
+<!-- .data_field -->
+
+</form>
+
+
+<button class="right" type="button"><span class="label">Right</span></button>
+
+<button class="skip" type="button"><span class="label">Skip</span></button>
+
+<button class="wrong" type="button"><span class="label">Wrong</span></button>
+
+<button class="cancel" type="button"><span class="label">Cancel</span></button>
+
+</div>
+<!-- #daily_double_dialog -->
+
+
+<div class="dialog" id="final_jeopardy_dialog">
+
+<div class="prompt">
+Final Jeopardy
+</div>
+<!-- .prompt -->
+
+<form id="final_jeopardy_form" autocomplete="off">
+
+<table class="players_table">
+
+<thead>
+
+<tr>
+
+<th scope="col" class="player">
+Contestant
+</th>
+
+<th scope="col" class="score before">
+Score
+</th>
+
+<th scope="col" class="wager">
+Wager
+</th>
+
+<th scope="col" class="correct">
+Correct
+</th>
+
+<th scope="col" class="score after">
+Final Score
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody class="players">
+
+</tbody>
+
+</table>
+
+
+<button type="button" class="finish enabled"><span class="label">Calculate</span></button>
+
+<button type="reset" class="reset enabled"><span class="label">Reset Form</span></button>
+
+<button type="button" class="close enabled"><span class="label">End Game</span></button>
+
+</form>
+
+</div>
+<!-- #final_jeopardy_dialog -->
+
+
+<div class="dialog" id="end_dialog">
+
+<div class="prompt">
+
+</div>
+<!-- .prompt -->
+
+
+<button class="yes" type="button"><span class="label">Yes</span></button>
+
+<button class="no" type="button"><span class="label">No</span></button>
+
+</div>
+<!-- #end_dialog -->
+
+</div>
+<!-- #greater_dialog -->
+
+</div>
+<!-- #game_ui -->
+
+
+<div id="conclusion">
+
+<div id="legal">
+
+<p>
+Copyright © 2010-2011 <a href="http://www.nextlevelarts.com/">Jesse McCarthy</a>.  "JEOPARDY!" is a trademark of Jeopardy Productions, Inc.  This software / website is not endorsed by, sponsored by, or affiliated with Jeopardy Productions, Inc.
+</p>
+
+</div>
+<!-- #legal -->
+
+</div>
+<!-- #conclusion -->
+
+</div>
+<!-- #primary_layout -->
+
+
+<div id="fragments">
+
+<!-- start fragment player -->
+
+<div class="player" id="player-">
+
+<div class="name"><input type="text" name="player[][name]" class="name" /></div>
+
+<div class="score"><input type="text" name="player[][score]" class="score" /></div>
+
+<div class="delete"><a href="">Delete Contestant</a></div>
+
+</div>
+<!-- .player -->
+
+<!-- end fragment player -->
+
+
+<!-- start fragment cell -->
+
+<ul id="fragment-cell">
+
+<li class="cell enabled">
+
+<button type="button"><span class="label"></span></button>
+
+</li>
+
+</ul>
+
+<!-- end fragment cell -->
+
+
+
+<!-- start fragment final_jeopardy_player -->
+
+<table class="final_jeopardy_player">
+
+<tbody>
+
+<tr class="player">
+
+<td class="player">
+<input type="text" name="player[PLAYER_ID][name]" value="" size="12" />
+</td>
+
+<td class="score before">
+<input type="text" name="player[PLAYER_ID][score]" value="" size="5" />
+</td>
+
+<td class="wager">
+<input type="text" name="player[PLAYER_ID][wager]" value="" size="5" />
+</td>
+
+<td class="correct">
+
+<label class="right"><input type="checkbox" name="player[PLAYER_ID][correct]" value="1" /></label>
+
+</td>
+
+
+<td class="score after"></td>
+
+</tr>
+<!-- .final_jeopardy_player -->
+
+</tbody>
+
+</table>
+
+<!-- end fragment final_jeopardy_player -->
+
+</div>
+<!-- #fragments -->
+
+</body>
+
+</html>
