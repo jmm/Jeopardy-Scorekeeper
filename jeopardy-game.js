@@ -350,7 +350,7 @@ Jeopardy.Game.prototype.finish_clue = function ( correct, score_addend ) {
 
 Jeopardy.Game.prototype.skip_clue = function () {
 
-  this.finish_clue( true, 0 );
+  this.finish_clue( false, 0 );
 
 
   return;

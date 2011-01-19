@@ -56,6 +56,15 @@ body {
 }
 
 
+#beta_label {
+
+  font-family: "Courier New", monospace;
+
+  color: #CCCCCC;
+
+}
+
+
 #game_ui {
 
   position: relative;

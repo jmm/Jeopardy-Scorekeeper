@@ -1387,12 +1387,14 @@ Jeopardy.Game_UI.prototype.open_dialog = function ( dialog ) {
 
   this.dialog_stack.push( dialog );
 
-  if ( this.current_cell ) {
 
-    this.current_cell.find( "button" ).blur();
+  if ( document.activeElement && document.activeElement.blur ) {
+
+    document.activeElement.blur();
 
   }
   // if
+
 
   $( "#board" ).toggleClass( 'enabled', false );
 
@@ -1425,6 +1427,14 @@ Jeopardy.Game_UI.prototype.close_dialog = function ( count ) {
 
   }
   // while
+
+
+  if ( document.activeElement && document.activeElement.blur ) {
+
+    document.activeElement.blur();
+
+  }
+  // if
 
 
   if ( this.dialog_stack.length ) {
@@ -1535,7 +1545,7 @@ Jeopardy.Game_UI.prototype.board_keyboard_nav = function ( event ) {
   // if
 
 
-  else if ( event.which == this.key_values[ 'Spacebar' ] ) {
+  else if ( $.inArray( event.which, [ this.key_values[ 'Spacebar' ], this.key_values[ 'Enter' ] ] ) != -1 ) {
 
     event.preventDefault();
 
@@ -1786,15 +1796,39 @@ Jeopardy.Game_UI.prototype.handle_keyboard_nav_keypress = function ( event ) {
 
   if ( event.type == 'keypress' ) {
 
-    if ( $.inArray( event.keyCode, [
+    if (
 
-      this.key_values[ 'Up' ],
+      $.inArray( event.keyCode, [
 
-      this.key_values[ 'Down' ],
+        this.key_values[ 'Up' ],
 
-      this.key_values[ 'Spacebar' ]
+        this.key_values[ 'Down' ],
 
-    ] ) != -1 ) {
+        this.key_values[ 'Spacebar' ],
+
+        this.key_values[ 'Enter' ]
+
+      ] ) != -1
+
+      ||
+
+      (
+
+        event.keyCode == this.key_values[ 'Tab' ] &&
+
+        event.currentTarget.tagName &&
+
+        event.currentTarget.tagName.toLowerCase() == 'button'
+
+      )
+
+      ||
+
+      // For some unknown reason Opera fires keypress at document after dialog_keyboard_nav focuses a wager radio in response to Tab-ing.
+
+      event.currentTarget == document
+
+    ) {
 
       event.preventDefault();
 
