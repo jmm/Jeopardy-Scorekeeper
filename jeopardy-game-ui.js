@@ -1816,17 +1816,23 @@ Jeopardy.Game_UI.prototype.handle_keyboard_nav_keypress = function ( event ) {
 
         event.keyCode == this.key_values[ 'Tab' ] &&
 
-        event.currentTarget.tagName &&
+        (
 
-        event.currentTarget.tagName.toLowerCase() == 'button'
+          // For some unknown reason Opera fires keypress at document after dialog_keyboard_nav focuses a wager radio in response to Tab-ing.
+
+          event.currentTarget == document ||
+
+          (
+
+            event.currentTarget.tagName &&
+
+            event.currentTarget.tagName.toLowerCase() == 'button'
+
+          )
+
+        )
 
       )
-
-      ||
-
-      // For some unknown reason Opera fires keypress at document after dialog_keyboard_nav focuses a wager radio in response to Tab-ing.
-
-      event.currentTarget == document
 
     ) {
 
