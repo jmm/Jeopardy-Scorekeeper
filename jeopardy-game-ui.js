@@ -106,15 +106,23 @@ Jeopardy.Game_UI.prototype.key_values = {
 
 Jeopardy.Game_UI.prototype.nav_keys = {};
 
-Jeopardy.Game_UI.prototype.nav_keys[ Jeopardy.Game_UI.prototype.key_values[ 'Up' ] ] = 'Up';
+( function ( game_ui, nav_keys ) {
 
-Jeopardy.Game_UI.prototype.nav_keys[ Jeopardy.Game_UI.prototype.key_values[ 'Down' ] ] = 'Down';
+  var i, nav_key;
 
-Jeopardy.Game_UI.prototype.nav_keys[ Jeopardy.Game_UI.prototype.key_values[ 'Left' ] ] = 'Left';
+  for ( i = 0; i < nav_keys.length ; ++i ) {
 
-Jeopardy.Game_UI.prototype.nav_keys[ Jeopardy.Game_UI.prototype.key_values[ 'Right' ] ] = 'Right';
+    nav_key = nav_keys[ i ];
 
-Jeopardy.Game_UI.prototype.nav_keys[ Jeopardy.Game_UI.prototype.key_values[ 'Tab' ] ] = 'Tab';
+    game_ui.nav_keys[ game_ui.key_values[ nav_key ] ] = nav_key;
+
+  }
+  // for
+
+
+  return;
+
+} )( Jeopardy.Game_UI.prototype, [ 'Up', 'Down', 'Left', 'Right', 'Tab' ] );
 
 
 Jeopardy.Game_UI.prototype.current_dialog = function () {
@@ -160,7 +168,7 @@ Jeopardy.Game_UI.prototype.start_game = function ( event ) {
   // if
 
 
-  jeopardy = this;
+  var jeopardy = this;
 
   // Get config params
   $( "#game_config :input" ).each( function ( index, element ) {
@@ -1165,7 +1173,7 @@ Jeopardy.Game_UI.prototype.populate_final_jeopardy_players_form = function ( eve
   // for
 
 
-  players.find( "input" ).keydown( $.proxy( this, 'final_jeopardy_keyboard_nav' ) );
+  players.find( "input" ).bind( 'keydown keypress', $.proxy( this, 'final_jeopardy_keyboard_nav' ) );
 
 
   players.find( ".correct .right input" ).bind( "focus blur", function ( event ) {
@@ -1327,13 +1335,31 @@ Jeopardy.Game_UI.prototype.final_jeopardy_keyboard_nav = function ( event ) {
 
       nav_key == 'Tab' &&
 
+      nav_event[ 'dir' ] == 'prev' &&
+
+      this.current_dialog().find( "button:visible:first" )[0] == event.currentTarget
+
+    ) {
+
+      this.current_dialog().find( "input:last" ).focus();
+
+      event.preventDefault();
+
+    }
+    // else if
+
+
+    else if (
+
+      nav_key == 'Tab' &&
+
       (
 
-        ( ! event.shiftKey && jq_targ.is( "button" ) && ! jq_targ.next( "button:visible" ).length ) ||
+        ( jq_targ.is( "button" ) && ! jq_targ.next( "button:visible" ).length ) ||
 
         (
 
-          event.shiftKey &&
+          nav_event[ 'dir' ] == 'prev' &&
 
           (
 
