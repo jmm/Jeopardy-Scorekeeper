@@ -1268,6 +1268,14 @@ Jeopardy.Game_UI.prototype.finish_final_jeopardy = function ( event ) {
 
 Jeopardy.Game_UI.prototype.final_jeopardy_keyboard_nav = function ( event ) {
 
+  if ( this.handle_keyboard_nav_keypress( event ) ) {
+
+    return;
+
+  }
+  // if
+
+
   var jq_targ = $( event.currentTarget );
 
   var nav_key, nav_keys = this.nav_keys;
@@ -1295,7 +1303,7 @@ Jeopardy.Game_UI.prototype.final_jeopardy_keyboard_nav = function ( event ) {
 
   if ( nav_event ) {
 
-    if ( nav_event[ 'is_arrow' ] && ! jq_targ.is( 'input' ) ) {
+    if ( nav_event[ 'is_arrow' ] && ! jq_targ.is( "input[type='text']" ) ) {
 
       event.preventDefault();
 
@@ -1866,6 +1874,9 @@ Jeopardy.Game_UI.prototype.handle_keyboard_nav_keypress = function ( event ) {
 
     }
     // if
+
+
+    event.stopPropagation();
 
     return true;
 
