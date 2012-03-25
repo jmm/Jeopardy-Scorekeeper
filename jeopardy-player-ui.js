@@ -1,19 +1,31 @@
 
+
 /*
 
-Copyright © 2010-2011 Jesse McCarthy <http://jessemccarthy.net/>
+Copyright © 2010-2012 Jesse McCarthy <http://jessemccarthy.net/>
 
-This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!" is a trademark of Jeopardy Productions, Inc.  This software is not endorsed by, sponsored by, or affiliated with Jeopardy Productions, Inc.
+This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!"
+is a trademark of Jeopardy Productions, Inc.  This software is not
+endorsed by, sponsored by, or affiliated with Jeopardy Productions,
+Inc.
 
-This software may be used under the MIT (aka X11) license or Simplified BSD
-(aka FreeBSD) license.  See LICENSE.
+This software may be used under the MIT (aka X11) license or
+Simplified BSD (aka FreeBSD) license.  See LICENSE.
 
 */
 
 
+/**
+ * Player_UI constructor.
+ *
+ * @param player Player init data.
+ *
+ * @return void
+ */
+
 Jeopardy.Player_UI = function ( player ) {
 
-  this.parent.call( this, player );
+  this.parent.constructor.call( this, player );
 
 
   return;
@@ -22,16 +34,27 @@ Jeopardy.Player_UI = function ( player ) {
 // Jeopardy.Player_UI
 
 
+/// object Inherit from Player prototype.
 Jeopardy.Player_UI.prototype = new Jeopardy.Player( {} );
 
-Jeopardy.Player_UI.prototype.parent = Jeopardy.Player;
+/// object Parent prototype.
+Jeopardy.Player_UI.prototype.parent = Jeopardy.Player_UI.prototype.constructor.prototype;
 
+/// object Set correct constructor.
 Jeopardy.Player_UI.prototype.constructor = Jeopardy.Player_UI;
 
 
+/**
+ * Grant or revoke player's control of the board.
+ *
+ * @param boolean has_control Has control of the board.
+ *
+ * @return void
+ */
+
 Jeopardy.Player_UI.prototype.set_has_control = function ( has_control ) {
 
-  this.parent.prototype.set_has_control.call( this, has_control );
+  this.parent.set_has_control.call( this, has_control );
 
   this.update_ui();
 
@@ -41,6 +64,14 @@ Jeopardy.Player_UI.prototype.set_has_control = function ( has_control ) {
 };
 // Player_UI.set_has_control
 
+
+/**
+ * Update info (e.g. name, score).
+ *
+ * @param object ui DOM element containing the update.
+ *
+ * @return void
+ */
 
 Jeopardy.Player_UI.prototype.update_info = function ( ui ) {
 
@@ -74,6 +105,12 @@ Jeopardy.Player_UI.prototype.update_info = function ( ui ) {
 // Player_UI.update_info
 
 
+/**
+ * Get player's score formatted for display in the UI.
+ *
+ * @return string Formatted score.
+ */
+
 Jeopardy.Player_UI.prototype.get_ui_score = function () {
 
   var score = this.get_score().toString().replace( /^(-?)/, "$1$$" );
@@ -85,25 +122,23 @@ Jeopardy.Player_UI.prototype.get_ui_score = function () {
 // get_ui_score
 
 
+/**
+ * Get the UI fragment representing the player.
+ *
+ * @return object jQuery object.
+ */
+
 Jeopardy.Player_UI.prototype.get_ui = function () {
-
-  if ( this instanceof Jeopardy.Player_UI ) {
-
-    var data = { 'id' : this.id, 'name' : this.name, 'score' : this.get_ui_score() };
-
-  }
-  // if
-
 
   var output = $( "#fragments > .player" ).clone();
 
-  output.attr( 'id', ( output.attr( 'id' ) + data[ 'id' ] ) );
+  output.attr( 'id', ( output.attr( 'id' ) + this.id ) );
 
-  output.data( 'id', data[ 'id' ] );
+  output.data( 'id', this.id );
 
-  output.find( ".name input" ).val( data[ 'name' ] );
+  output.find( ".name input" ).val( this.name );
 
-  output.find( ".score input" ).val( data[ 'score' ] );
+  output.find( ".score input" ).val( this.get_ui_score() );
 
 
   return output;
@@ -111,6 +146,12 @@ Jeopardy.Player_UI.prototype.get_ui = function () {
 };
 // Player_UI.get_ui
 
+
+/**
+ * Update the UI fragment representing the player.
+ *
+ * @return void
+ */
 
 Jeopardy.Player_UI.prototype.update_ui = function () {
 
@@ -131,6 +172,14 @@ Jeopardy.Player_UI.prototype.update_ui = function () {
 };
 // Player_UI.update_ui
 
+
+/**
+ * Get the Final Jeopardy UI.
+ *
+ * @param number tv_player_number Numeric ID, if a TV player.
+ *
+ * @return object jQuery object.
+ */
 
 Jeopardy.Player_UI.prototype.get_final_jeopardy_ui = function ( tv_player_number ) {
 
@@ -178,9 +227,17 @@ Jeopardy.Player_UI.prototype.get_final_jeopardy_ui = function ( tv_player_number
 // Player_UI.get_final_jeopardy_ui
 
 
+/**
+ * Update score.
+ *
+ * @param mixed score May be a number or not.
+ *
+ * @return number Updated score.
+ */
+
 Jeopardy.Player_UI.prototype.update_score = function ( score ) {
 
-  this.parent.prototype.update_score.call( this, score );
+  this.parent.update_score.call( this, score );
 
   this.update_ui();
 

@@ -1,20 +1,33 @@
 
+
 /*
 
-Copyright © 2010-2011 Jesse McCarthy <http://jessemccarthy.net/>
+Copyright © 2010-2012 Jesse McCarthy <http://jessemccarthy.net/>
 
-This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!" is a trademark of Jeopardy Productions, Inc.  This software is not endorsed by, sponsored by, or affiliated with Jeopardy Productions, Inc.
+This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!"
+is a trademark of Jeopardy Productions, Inc.  This software is not
+endorsed by, sponsored by, or affiliated with Jeopardy Productions,
+Inc.
 
-This software may be used under the MIT (aka X11) license or Simplified BSD
-(aka FreeBSD) license.  See LICENSE.
+This software may be used under the MIT (aka X11) license or
+Simplified BSD (aka FreeBSD) license.  See LICENSE.
 
 */
 
 
 /**
- * Abstractly maintain the state of a Jeopardy game.
+ * Game constructor.
  *
- * Maintain the state of a Jeopardy game -- players, scores, clue counts, current player, etc. -- with no concept of a UI, except for the native Jeopardy UI (e.g. a board with columns of clue cells).
+ * Abstractly maintain the state of a Jeopardy game -- players,
+ * scores, clue counts, current player, etc. -- with no concept of a
+ * UI, except for the native Jeopardy UI (e.g. a board with columns of
+ * clue cells).
+ *
+ * @param array players Players' init data.
+ *
+ * @param object config Config params.
+ *
+ * @return void
  */
 
 Jeopardy.Game = function ( players, config ) {
@@ -35,20 +48,19 @@ Jeopardy.Game = function ( players, config ) {
 // Jeopardy.Game
 
 
-Jeopardy.Game.prototype.parent = Jeopardy.Game.prototype.constructor.prototype;
+/// object Player constructor prototype.
+Jeopardy.Game.prototype.player_class = Jeopardy.Player.prototype;
 
-Jeopardy.Game.prototype.constructor = Jeopardy.Game;
-
-
-Jeopardy.Game.prototype.player_class = Jeopardy.Player.constructor;
-
-
+/// object Player data.
 Jeopardy.Game.prototype.players = {};
 
+/// object Player sequence.
 Jeopardy.Game.prototype.player_order = [];
 
+/// object Player that has control of the board.
 Jeopardy.Game.prototype.current_player;
 
+/// object Number of players in a Jeopardy TV episode.
 Jeopardy.Game.prototype.num_tv_players = 3;
 
 
@@ -60,7 +72,22 @@ double_jeopardy_change_player_method = ( '' | 'min' | 'max' )
 
 */
 
+
+/**
+ * object Config params.
+ *
+ * Elements include:
+ *
+ * string double_jeopardy_change_player_method =
+ *   ( '' | 'min' | 'max' )
+ */
+
 Jeopardy.Game.prototype.config = {};
+
+
+/**
+ * object Maps round numbers to names.
+ */
 
 Jeopardy.Game.prototype.rounds = {
 
@@ -73,18 +100,32 @@ Jeopardy.Game.prototype.rounds = {
 };
 
 
+/// number Current round (1-based).
 Jeopardy.Game.prototype.current_round = 0;
 
+/// object Number of clues of each value remaining on the board.
 Jeopardy.Game.prototype.clue_counts = {};
 
+/// Active cell of the board.
 Jeopardy.Game.prototype.current_cell;
 
+/// number Number of categories on the board.
 Jeopardy.Game.prototype.categories = 6;
 
+/// number Minimum daily double wager.
 Jeopardy.Game.prototype.min_daily_double_wager = 5;
 
+/// number Maximum clue value (wager) in current context.
 Jeopardy.Game.prototype.current_max_clue_value;
 
+
+/**
+ * Set the players.
+ *
+ * @param array players Player init data.
+ *
+ * @return void
+ */
 
 Jeopardy.Game.prototype.set_players = function ( players ) {
 
@@ -108,6 +149,14 @@ Jeopardy.Game.prototype.set_players = function ( players ) {
 // Game.set_players
 
 
+/**
+ * Add a player to the game.
+ *
+ * @param object player Player init data.
+ *
+ * @return void
+ */
+
 Jeopardy.Game.prototype.add_player = function ( player ) {
 
   this.players[ player.id ] = this.create_player( player );
@@ -121,6 +170,14 @@ Jeopardy.Game.prototype.add_player = function ( player ) {
 // Game.add_player
 
 
+/**
+ * Create a player object.
+ *
+ * @param object player Player init data.
+ *
+ * @return object Player object.
+ */
+
 Jeopardy.Game.prototype.create_player = function ( player ) {
 
   return new this.player_class.constructor( player );
@@ -128,6 +185,12 @@ Jeopardy.Game.prototype.create_player = function ( player ) {
 };
 // Game.create_player
 
+
+/**
+ * Start the game.
+ *
+ * @return void
+ */
 
 Jeopardy.Game.prototype.start_game = function () {
 
@@ -155,6 +218,14 @@ Jeopardy.Game.prototype.start_game = function () {
 // Game.start_game
 
 
+/**
+ * Assign control of the board to a specified player.
+ *
+ * @param number player_id Specifies player to whom to assign control.
+ *
+ * @return void
+ */
+
 Jeopardy.Game.prototype.change_current_player = function ( player_id ) {
 
   if ( this.current_player ) {
@@ -176,7 +247,13 @@ Jeopardy.Game.prototype.change_current_player = function ( player_id ) {
 // Game.change_current_player
 
 
-Jeopardy.Game.prototype.double_jeopardy_change_player = function ( round ) {
+/**
+ * Choose which player will have control to begin Double Jeopardy.
+ *
+ * @return void
+ */
+
+Jeopardy.Game.prototype.double_jeopardy_change_player = function () {
 
   if (
 
@@ -196,7 +273,7 @@ Jeopardy.Game.prototype.double_jeopardy_change_player = function ( round ) {
 
     var current_player;
 
-    for ( i = 0 ; i < rev_player_order.length ; ++i ) {
+    for ( var i = 0 ; i < rev_player_order.length ; ++i ) {
 
       current_player = this.players[ rev_player_order[ i ] ];
 
@@ -233,6 +310,14 @@ Jeopardy.Game.prototype.double_jeopardy_change_player = function ( round ) {
 };
 // Game.double_jeopardy_change_player
 
+
+/**
+ * Initialize a new round.
+ *
+ * @param number round New round number.
+ *
+ * @return void
+ */
 
 Jeopardy.Game.prototype.init_round = function ( round ) {
 
@@ -283,6 +368,14 @@ Jeopardy.Game.prototype.init_round = function ( round ) {
 // Game.init_round
 
 
+/**
+ * Start a clue.
+ *
+ * @param number clue_value Clue money value.
+ *
+ * @return void
+ */
+
 Jeopardy.Game.prototype.start_clue = function ( clue_value ) {
 
   this.current_clue = clue_value;
@@ -293,6 +386,14 @@ Jeopardy.Game.prototype.start_clue = function ( clue_value ) {
 };
 // Game.start_clue
 
+
+/**
+ * Finish a regular clue.
+ *
+ * @param boolean correct Response is correct.
+ *
+ * @return void
+ */
 
 Jeopardy.Game.prototype.finish_regular_clue = function ( correct ) {
 
@@ -314,6 +415,16 @@ Jeopardy.Game.prototype.finish_regular_clue = function ( correct ) {
 };
 // Game.finish_regular_clue
 
+
+/**
+ * Finish a clue.
+ *
+ * @param boolean correct Response is correct.
+ *
+ * @param number score_addend Addend for responding player's score.
+ *
+ * @return void
+ */
 
 Jeopardy.Game.prototype.finish_clue = function ( correct, score_addend ) {
 
@@ -348,6 +459,14 @@ Jeopardy.Game.prototype.finish_clue = function ( correct, score_addend ) {
 // Game.finish_clue
 
 
+/**
+ * Skip a clue.
+ *
+ * Decrements the clue count without affecting player's score.
+ *
+ * @return void
+ */
+
 Jeopardy.Game.prototype.skip_clue = function () {
 
   this.finish_clue( false, 0 );
@@ -359,6 +478,15 @@ Jeopardy.Game.prototype.skip_clue = function () {
 // Game.skip_clue
 
 
+/**
+ * Cancel a clue.
+ *
+ * Simply backs out. Doesn't decrement clue count or affect player's
+ * score.
+ *
+ * @return void
+ */
+
 Jeopardy.Game.prototype.cancel_clue = function () {
 
   this.current_clue = 0;
@@ -369,6 +497,14 @@ Jeopardy.Game.prototype.cancel_clue = function () {
 };
 // Game.cancel_clue
 
+
+/**
+ * Skip a daily double.
+ *
+ * Decrements daily double count without affecting player's score.
+ *
+ * @return void
+ */
 
 Jeopardy.Game.prototype.skip_daily_double = function () {
 
@@ -383,6 +519,12 @@ Jeopardy.Game.prototype.skip_daily_double = function () {
 // Game.skip_daily_double
 
 
+/**
+ * Start a daily double.
+ *
+ * @return void
+ */
+
 Jeopardy.Game.prototype.start_daily_double = function () {
 
   return;
@@ -390,6 +532,16 @@ Jeopardy.Game.prototype.start_daily_double = function () {
 };
 // Game.start_daily_double
 
+
+/**
+ * Finish a daily double.
+ *
+ * @param boolean correct Response is correct.
+ *
+ * @param number wager Addend for player's current score.
+ *
+ * @return void
+ */
 
 Jeopardy.Game.prototype.finish_daily_double = function ( correct, wager ) {
 
@@ -424,6 +576,14 @@ Jeopardy.Game.prototype.finish_daily_double = function ( correct, wager ) {
 // Game.finish_daily_double
 
 
+/**
+ * Finish Final Jeopardy.
+ *
+ * @param array players Players competing in Final Jeopardy.
+ *
+ * @return void
+ */
+
 Jeopardy.Game.prototype.finish_final_jeopardy = function ( players ) {
 
   var i, player;
@@ -452,4 +612,3 @@ Jeopardy.Game.prototype.finish_final_jeopardy = function ( players ) {
 
 };
 // Game.finish_final_jeopardy
-

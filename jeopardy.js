@@ -13,7 +13,7 @@ This software may be used under the MIT (aka X11) license or Simplified BSD
 
 $( document ).ready( function () {
 
-  jeopardy = new Jeopardy.Game_UI(
+  var jeopardy = new Jeopardy.Game_UI(
 
     [],
 
@@ -33,5 +33,5 @@ $( document ).ready( function () {
 } );
 
 
-Jeopardy = {};
+var Jeopardy = {};
 

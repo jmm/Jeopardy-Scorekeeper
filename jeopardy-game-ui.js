@@ -1,21 +1,40 @@
 
+
 /*
 
-Copyright © 2010-2011 Jesse McCarthy <http://jessemccarthy.net/>
+Copyright © 2010-2012 Jesse McCarthy <http://jessemccarthy.net/>
 
-This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!" is a trademark of Jeopardy Productions, Inc.  This software is not endorsed by, sponsored by, or affiliated with Jeopardy Productions, Inc.
+This file is part of the Jeopardy Scorekeeper software.  "JEOPARDY!"
+is a trademark of Jeopardy Productions, Inc.  This software is not
+endorsed by, sponsored by, or affiliated with Jeopardy Productions,
+Inc.
 
-This software may be used under the MIT (aka X11) license or Simplified BSD
-(aka FreeBSD) license.  See LICENSE.
+This software may be used under the MIT (aka X11) license or
+Simplified BSD (aka FreeBSD) license.  See LICENSE.
 
 */
 
+
+/**
+ * Game_UI constructor.
+ *
+ * Implements the UI for Jeopardy.Game.
+ *
+ * @param array players Player init data.
+ *
+ * @param object game_config Config params that only relate to the
+ *                            game.
+ *
+ * @param object ui_config Config params that only relate to the UI.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI = function ( players, game_config, ui_config ) {
 
   var add_player = $( "#round_and_players .add_player" );
 
-  add_player.click( $.proxy( this, 'add_player_ui' ) )
+  add_player.click( $.proxy( this, 'add_player_ui' ) );
 
   if ( ! players.length ) {
 
@@ -60,30 +79,38 @@ Jeopardy.Game_UI = function ( players, game_config, ui_config ) {
 // Game_UI
 
 
+/// object Inherit from Jeopardy.Game.
 Jeopardy.Game_UI.prototype = new Jeopardy.Game;
 
+/// object Parent prototype.
 Jeopardy.Game_UI.prototype.parent = Jeopardy.Game_UI.prototype.constructor.prototype;
 
+/// object Set correct constructor.
 Jeopardy.Game_UI.prototype.constructor = Jeopardy.Game_UI;
 
-
+/// object Player constructor prototype.
 Jeopardy.Game_UI.prototype.player_class = Jeopardy.Player_UI.prototype;
 
-
+/// object UI config params.
 Jeopardy.Game_UI.prototype.ui_config = {};
 
 
+/// array Stack of dialogs.
 Jeopardy.Game_UI.prototype.dialog_stack = [];
 
+/// object Active cell of the board.
 Jeopardy.Game_UI.prototype.current_cell;
 
+/// object Cell on the UI board to focus when returning focus to the
+/// board in general.
 Jeopardy.Game_UI.prototype.default_focus_cell;
 
 
+/// boolean Prompt the user to confirm navigation away from page.
 Jeopardy.Game_UI.prototype.require_confirm_leave_game = true;
 
 
-/// Key Values Set from DOM Level 3 Events 6.2.7
+/// object Key Values Set from DOM Level 3 Events 6.2.7
 
 Jeopardy.Game_UI.prototype.key_values = {
 
@@ -104,7 +131,12 @@ Jeopardy.Game_UI.prototype.key_values = {
 };
 
 
+
+/// object Map of key value codes to names.
 Jeopardy.Game_UI.prototype.nav_keys = {};
+
+
+// Map certain data from key_values into nav_keys.
 
 ( function ( game_ui, nav_keys ) {
 
@@ -125,6 +157,12 @@ Jeopardy.Game_UI.prototype.nav_keys = {};
 } )( Jeopardy.Game_UI.prototype, [ 'Up', 'Down', 'Left', 'Right', 'Tab' ] );
 
 
+/**
+ * Get the currently active dialog.
+ *
+ * @return object Current dialog jQuery object.
+ */
+
 Jeopardy.Game_UI.prototype.current_dialog = function () {
 
   return this.dialog_stack[ this.dialog_stack.length - 1 ];
@@ -132,6 +170,14 @@ Jeopardy.Game_UI.prototype.current_dialog = function () {
 };
 // current_dialog
 
+
+/**
+ * Start the game.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.start_game = function ( event ) {
 
@@ -254,6 +300,9 @@ Jeopardy.Game_UI.prototype.start_game = function ( event ) {
   } );
 
 
+  var data_field;
+
+
   dd_dialog.find( ".data_field input[name='wager'][type='radio']" ).bind( 'click focus', function ( event ) {
 
     data_field = $( this ).closest( ".data_field" );
@@ -364,6 +413,12 @@ Jeopardy.Game_UI.prototype.start_game = function ( event ) {
 // Game_UI.start_game
 
 
+/**
+ * Read players' data from UI.
+ *
+ * @return array Players' data.
+ */
+
 Jeopardy.Game_UI.prototype.get_players = function () {
 
   var players = [];
@@ -395,6 +450,14 @@ Jeopardy.Game_UI.prototype.get_players = function () {
 // Game_UI.get_players
 
 
+/**
+ * Add player to the game and UI.
+ *
+ * @param object player Player init data.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.add_player = function ( player ) {
 
   this.parent.add_player.call( this, player );
@@ -423,6 +486,14 @@ Jeopardy.Game_UI.prototype.add_player = function ( player ) {
 // add_player
 
 
+/**
+ * Give control of the board to the specified player.
+ *
+ * @param number player_id Specifies player.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.change_current_player = function ( player_id ) {
 
   this.parent.change_current_player.call( this, player_id );
@@ -434,9 +505,21 @@ Jeopardy.Game_UI.prototype.change_current_player = function ( player_id ) {
 // Game_UI.change_current_player
 
 
+/**
+ * Give control of the board to the player specified by user input.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.change_current_player_request = function ( event ) {
 
-  this.change_current_player( $( event.currentTarget ).closest( ".player" )[0].id.match( /[0-9]+$/ )[0] );
+  this.change_current_player(
+
+    $( event.currentTarget ).closest( ".player" )[0].id.match( /[0-9]+$/ )[0]
+
+  );
 
 
   event.preventDefault();
@@ -447,6 +530,16 @@ Jeopardy.Game_UI.prototype.change_current_player_request = function ( event ) {
 };
 // Game_UI.change_current_player
 
+
+/**
+ * Add UI for a player.
+ *
+ * @param object input Either an instance of player_class or a jQuery
+ *                      event triggered by the user requesting to add
+ *                      a player via the UI.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.add_player_ui = function ( input ) {
 
@@ -503,6 +596,14 @@ Jeopardy.Game_UI.prototype.add_player_ui = function ( input ) {
 // Game_UI.add_player_ui
 
 
+/**
+ * Delete a player from the UI.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.delete_player_ui = function ( event ) {
 
   $( event.currentTarget ).closest( ".player" ).remove();
@@ -515,6 +616,14 @@ Jeopardy.Game_UI.prototype.delete_player_ui = function ( event ) {
 };
 // Game_UI.delete_player_ui
 
+
+/**
+ * Initialize a new round.
+ *
+ * @param number round New round number.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.init_round = function ( round ) {
 
@@ -628,6 +737,14 @@ Jeopardy.Game_UI.prototype.init_round = function ( round ) {
 // Game_UI.init_round
 
 
+/**
+ * End the game.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.end_game = function ( event ) {
 
   var dialog = $( "#end_dialog" );
@@ -674,6 +791,14 @@ Jeopardy.Game_UI.prototype.end_game = function ( event ) {
 };
 // Game_UI.end_game
 
+
+/**
+ * End the round.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.end_round = function ( event ) {
 
@@ -728,7 +853,12 @@ Jeopardy.Game_UI.prototype.end_round = function ( event ) {
 
 
 /**
- * Vertically center the regular clue / daily double dialog with respect to the current board cell.
+ * Vertically center the regular clue / daily double dialog with
+ * respect to the current board cell.
+ *
+ * @param object dialog jQuery.
+ *
+ * @return void
  */
 
 Jeopardy.Game_UI.prototype.position_dialog = function ( dialog ) {
@@ -856,6 +986,14 @@ Jeopardy.Game_UI.prototype.position_dialog = function ( dialog ) {
 // Game_UI.position_dialog
 
 
+/**
+ * Start a clue.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.start_clue = function ( event ) {
 
   var current_cell = $( event.currentTarget ).closest( ".cell" );
@@ -909,6 +1047,14 @@ Jeopardy.Game_UI.prototype.start_clue = function ( event ) {
 };
 // Game_UI.start_clue
 
+
+/**
+ * Start a daily double.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.start_daily_double = function ( event ) {
 
@@ -983,6 +1129,14 @@ Jeopardy.Game_UI.prototype.start_daily_double = function ( event ) {
 // Game_UI.start_daily_double
 
 
+/**
+ * Finish a daily double.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.finish_daily_double = function ( event ) {
 
   event.preventDefault();
@@ -1003,6 +1157,15 @@ Jeopardy.Game_UI.prototype.finish_daily_double = function ( event ) {
 // Game_UI.finish_daily_double
 
 
+/**
+ * Skip a daily double. Decrement the daily double count without
+ * affecting player's score.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.skip_daily_double = function ( event ) {
 
   event.preventDefault();
@@ -1019,6 +1182,15 @@ Jeopardy.Game_UI.prototype.skip_daily_double = function ( event ) {
 // Game_UI.skip_daily_double
 
 
+/**
+ * Cancel a daily double. Simply back out without decrementing the
+ * daily double count or affecting the player's score.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.cancel_daily_double = function ( event ) {
 
   event.preventDefault();
@@ -1032,6 +1204,12 @@ Jeopardy.Game_UI.prototype.cancel_daily_double = function ( event ) {
 };
 // Game_UI.cancel_daily_double
 
+
+/**
+ * Update the board UI to reflect current game state.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.update_board = function () {
 
@@ -1058,6 +1236,14 @@ Jeopardy.Game_UI.prototype.update_board = function () {
 // Game_UI.update_board
 
 
+/**
+ * Finish a regular clue.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.finish_regular_clue = function ( event ) {
 
   event.preventDefault();
@@ -1072,6 +1258,16 @@ Jeopardy.Game_UI.prototype.finish_regular_clue = function ( event ) {
 };
 // Game_UI.finish_regular_clue
 
+
+/**
+ * Finish a clue.
+ *
+ * @param boolean correct Response is correct.
+ *
+ * @param number score_addend Addend for player's current score.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.finish_clue = function ( correct, score_addend ) {
 
@@ -1088,6 +1284,14 @@ Jeopardy.Game_UI.prototype.finish_clue = function ( correct, score_addend ) {
 };
 // Game_UI.finish_clue
 
+
+/**
+ * Skip a clue. Decrement clue count and don't alter player's score.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.skip_clue = function ( event ) {
 
@@ -1107,6 +1311,15 @@ Jeopardy.Game_UI.prototype.skip_clue = function ( event ) {
 // Game_UI.skip_clue
 
 
+/**
+ * Cancel a clue. Simply back out without decrementing clue count or
+ * affecting player's score.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.cancel_clue = function ( event ) {
 
   event.preventDefault();
@@ -1122,6 +1335,12 @@ Jeopardy.Game_UI.prototype.cancel_clue = function ( event ) {
 // Game_UI.cancel_clue
 
 
+/**
+ * Dismiss the clue dialog.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.dismiss_clue = function () {
 
   this.close_dialog( -1 );
@@ -1136,6 +1355,14 @@ Jeopardy.Game_UI.prototype.dismiss_clue = function () {
 };
 // Game_UI.dismiss_clue
 
+
+/**
+ * Populate the final jeopardy UI form.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.populate_final_jeopardy_players_form = function ( event ) {
 
@@ -1202,6 +1429,12 @@ Jeopardy.Game_UI.prototype.populate_final_jeopardy_players_form = function ( eve
 // Game_UI.populate_final_jeopardy_players_form
 
 
+/**
+ * Start Final Jeopardy.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.start_final_jeopardy = function () {
 
   var fj_dialog = $( "#final_jeopardy_dialog" );
@@ -1224,6 +1457,14 @@ Jeopardy.Game_UI.prototype.start_final_jeopardy = function () {
 }
 // Game_UI.start_final_jeopardy
 
+
+/**
+ * Finish Final Jeopardy.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.finish_final_jeopardy = function ( event ) {
 
@@ -1265,6 +1506,14 @@ Jeopardy.Game_UI.prototype.finish_final_jeopardy = function ( event ) {
 };
 // Game_UI.finish_final_jeopardy
 
+
+/**
+ * Handle keyboard navigation in the Final Jeopardy UI.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.final_jeopardy_keyboard_nav = function ( event ) {
 
@@ -1401,6 +1650,14 @@ Jeopardy.Game_UI.prototype.final_jeopardy_keyboard_nav = function ( event ) {
 // Game_UI.final_jeopardy_keyboard_nav
 
 
+/**
+ * Open a dialog.
+ *
+ * @param object dialog jQuery.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.open_dialog = function ( dialog ) {
 
   if ( this.dialog_stack.length ) {
@@ -1442,6 +1699,15 @@ Jeopardy.Game_UI.prototype.open_dialog = function ( dialog ) {
 };
 // Game_UI.open_dialog
 
+
+/**
+ * Close a dialog
+ *
+ * @param number count Number of dialog_stack levels to close. -1 for
+ *                      all.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.close_dialog = function ( count ) {
 
@@ -1495,6 +1761,14 @@ Jeopardy.Game_UI.prototype.close_dialog = function ( count ) {
 // Game_UI.close_dialog
 
 
+/**
+ * Handle keyboard navigation in the UI in general.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.ui_keyboard_nav = function ( event ) {
 
   if ( this.handle_keyboard_nav_keypress( event ) ) {
@@ -1531,6 +1805,14 @@ Jeopardy.Game_UI.prototype.ui_keyboard_nav = function ( event ) {
 };
 // Game_UI.ui_keyboard_nav
 
+
+/**
+ * Handle keyboard navigation in the board.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.board_keyboard_nav = function ( event ) {
 
@@ -1596,6 +1878,14 @@ Jeopardy.Game_UI.prototype.board_keyboard_nav = function ( event ) {
 };
 // Game_UI.board_keyboard_nav
 
+
+/**
+ * Handle keyboard navigation in dialogs.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.dialog_keyboard_nav = function ( event ) {
 
@@ -1824,6 +2114,10 @@ Jeopardy.Game_UI.prototype.dialog_keyboard_nav = function ( event ) {
 
 /**
  * To get Opera to stop scrolling on up / down arrow, spacebar.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
  */
 
 Jeopardy.Game_UI.prototype.handle_keyboard_nav_keypress = function ( event ) {
@@ -1890,6 +2184,14 @@ Jeopardy.Game_UI.prototype.handle_keyboard_nav_keypress = function ( event ) {
 // Game_UI.handle_keyboard_nav_keypress
 
 
+/**
+ * Handle keyup in input[type="text"].
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.handle_text_input_keyup = function ( event ) {
 
   if ( event.which == this.key_values[ 'Enter' ] ) {
@@ -1919,6 +2221,15 @@ Jeopardy.Game_UI.prototype.handle_text_input_keyup = function ( event ) {
 // Game_UI.handle_text_input_keyup
 
 
+/**
+ * Focus the board cell designated as the default when returning focus
+ * to the board.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
+
 Jeopardy.Game_UI.prototype.focus_default_cell = function ( event ) {
 
   this.default_focus_cell.find( "button" ).focus();
@@ -1930,7 +2241,13 @@ Jeopardy.Game_UI.prototype.focus_default_cell = function ( event ) {
 // Game_UI.focus_default_cell
 
 
-
+/**
+ * Update player info edited in the UI.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.update_player_info = function ( event ) {
 
@@ -1948,6 +2265,14 @@ Jeopardy.Game_UI.prototype.update_player_info = function ( event ) {
 };
 // Game_UI.update_player_info
 
+
+/**
+ * Leave the game page.
+ *
+ * @param object event jQuery event.
+ *
+ * @return void
+ */
 
 Jeopardy.Game_UI.prototype.leave_game = function ( event ) {
 
