@@ -462,7 +462,7 @@ Jeopardy.Game_UI.prototype.add_player = function ( player ) {
 
   this.parent.add_player.call( this, player );
 
-  var player = this.players[ player.id ];
+  player = this.players[ player.id ];
 
 
   if ( ! $( "#player-" + player.id ).length ) {
@@ -666,6 +666,8 @@ Jeopardy.Game_UI.prototype.init_round = function ( round ) {
 
     this.default_focus_cell = null;
 
+    var keyup_listener = function ( event ) { event.preventDefault(); };
+
     for ( i = 0 ; i < clue_counts.length ; ++i ) {
 
       var clue_value = clue_counts[ i ];
@@ -689,7 +691,7 @@ Jeopardy.Game_UI.prototype.init_round = function ( round ) {
 
       cell.find( "button" ).bind( 'keydown keypress', $.proxy( this, 'board_keyboard_nav' ) );
 
-      cell.find( "button" ).keyup( function ( event ) { event.preventDefault(); } );
+      cell.find( "button" ).keyup( keyup_listener );
 
       $( "#board .column" ).append( cell );
 
@@ -1087,7 +1089,7 @@ Jeopardy.Game_UI.prototype.start_daily_double = function ( event ) {
 
     wagers[ 'true' ] = this.current_player.get_score();
 
-  };
+  }
 
 
   $.each( wagers, function ( index, element ) {
@@ -1217,7 +1219,7 @@ Jeopardy.Game_UI.prototype.update_board = function () {
 
   var cell = this.current_cell;
 
-  clue_count = this.clue_counts[ this.current_round ][ cell.data( 'clue_value' ) ]
+  clue_count = this.clue_counts[ this.current_round ][ cell.data( 'clue_value' ) ];
 
   cell.find( ".count" ).text( "(" + clue_count + ")" );
 
@@ -1379,7 +1381,7 @@ Jeopardy.Game_UI.prototype.populate_final_jeopardy_players_form = function ( eve
 
     if ( i < this.player_order.length ) {
 
-      player = this.players[ this.player_order[ i ] ]
+      player = this.players[ this.player_order[ i ] ];
 
     }
     // if
@@ -1454,7 +1456,7 @@ Jeopardy.Game_UI.prototype.start_final_jeopardy = function () {
 
   return;
 
-}
+};
 // Game_UI.start_final_jeopardy
 
 
@@ -1980,7 +1982,7 @@ Jeopardy.Game_UI.prototype.dialog_keyboard_nav = function ( event ) {
 
           current_dialog.attr( 'id' ) == 'daily_double_dialog' &&
 
-          current_dialog.find( "button" ).index( event.currentTarget ) == 0
+          current_dialog.find( "button" ).index( event.currentTarget ) === 0
 
         ) {
 
@@ -2284,7 +2286,7 @@ Jeopardy.Game_UI.prototype.leave_game = function ( event ) {
   // if
 
 
-  var message = "Your current game will be lost if you leave this page."
+  var message = "Your current game will be lost if you leave this page.";
 
   event.returnValue = message;
 

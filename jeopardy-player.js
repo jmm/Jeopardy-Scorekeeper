@@ -34,7 +34,7 @@ Jeopardy.Player = function ( player ) {
 
   return;
 
-}
+};
 // Jeopardy.Player
 
 

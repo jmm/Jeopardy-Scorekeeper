@@ -551,7 +551,7 @@ Jeopardy.Game.prototype.finish_daily_double = function ( correct, wager ) {
 
     max_wager = this.current_player.get_score();
 
-  };
+  }
 
 
   wager = Math.max( Math.min( wager, max_wager ), this.min_daily_double_wager );

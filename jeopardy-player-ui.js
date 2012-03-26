@@ -192,7 +192,7 @@ Jeopardy.Player_UI.prototype.get_final_jeopardy_ui = function ( tv_player_number
 
     data = { 'id' : this.id, 'name' : this.name, 'score' : this.get_score(), 'class' : 'live' };
 
-    ui.find( '.player' ).text( data[ 'name' ] )
+    ui.find( '.player' ).text( data[ 'name' ] );
 
     ui.find( ".score input" ).val( data[ 'score' ] );
 
