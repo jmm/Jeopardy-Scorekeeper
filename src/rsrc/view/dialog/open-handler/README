@@ -1,0 +1,13 @@
+Each module implements a handler for opening a type of dialog. They're called as methods of the Game view. Their responsibility is to instantiate a dialog view, if necessary, and set data on the dialog view that it requires, preferably via setting a model (e.g. via set_model() method on the dialog view). They may perform other setup as necessary, e.g. calling methods on the model being set on the dialog view.
+
+These are to provide a bridge between the Game view and dialog views so that they aren't dependent on the Game view or model.
+
+Handler signature (called as method of Game view):
+
+({
+  // Cached instance of the dialog
+  dialog,
+
+  // General ptions for use by the handler
+  options,
+})

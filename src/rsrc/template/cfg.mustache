@@ -1,0 +1,135 @@
+<div class="column" id="game-controls">
+
+<div id="setup-game" class="enabled">
+
+<div id="greater-start-game">
+<button class="button" id="start-game" type="button"><span class="label">Start Game</span></button>
+</div>
+
+</div>
+<!-- #setup-game -->
+
+
+<div id="admin-game">
+
+<div id="greater-end-round">
+<button id="end-round" class="button enabled" type="button"><span class="label">End Round</span></button>
+</div>
+
+<div id="greater-end-game">
+<button id="end-game" class="button enabled" type="button"><span class="label">End Game</span></button>
+</div>
+
+
+<div id="daily-doubles-remaining">
+Daily Doubles Remaining: <span class="count"></span>
+</div>
+
+</div>
+<!-- #admin-game -->
+
+
+<form id="game-config" autocomplete="off">
+
+<h1>
+Configuration
+</h1>
+
+<div class="data-item data-field control-set">
+
+<div class="label-block">
+<label for="config-deduct-incorrect-clue">Deduct on incorrect regular clues</label>
+</div>
+
+<div class="control-block">
+
+<select name="config[deduct_incorrect_clue]" id="config-deduct-incorrect-clue" data-param-type="bool">
+
+{{#option}}<option value="1" data-param="config.deduct_incorrect_clue">Yes</option>{{/option}}
+
+{{#option}}<option value="0" data-param="config.deduct_incorrect_clue">No</option>{{/option}}
+
+</select>
+
+</div>
+<!-- .control-block -->
+
+</div>
+<!-- .data-item -->
+
+
+<div class="data-item data-field control-set">
+
+<div class="label-block">
+<label for="config-deduct-incorrect-daily-double">Deduct on incorrect Daily Doubles</label>
+</div>
+
+<div class="control-block">
+
+<select name="config[deduct-incorrect-daily-double]" id="config-deduct-incorrect-daily-double" data-param-type="bool">
+
+{{#option}}<option value="1" data-param="config.deduct_incorrect_daily_double">Yes</option>{{/option}}
+
+{{#option}}<option value="0" data-param="config.deduct_incorrect_daily_double">No</option>{{/option}}
+
+</select>
+
+</div>
+<!-- .control-block -->
+
+</div>
+<!-- .data-item -->
+
+
+<div class="data-item data-field control-set">
+
+<div class="label-block">
+<label for="config-double-jeopardy-change-player-method">Who starts Double Jeopardy</label>
+</div>
+
+<div class="control-block">
+
+<select name="config[double_jeopardy_change_player_method]" id="config-double-jeopardy-change-player-method">
+
+{{#option}}<option value="-1" data-param="config.double_jeopardy_change_player_method">Lowest Score</option>{{/option}}
+
+{{#option}}<option value="0" data-param="config.double_jeopardy_change_player_method">Current Player</option>{{/option}}
+
+{{#option}}<option value="1" data-param="config.double_jeopardy_change_player_method">Highest Score</option>{{/option}}
+
+</select>
+
+</div>
+<!-- .control-block -->
+
+</div>
+<!-- .data-item -->
+
+
+<div class="data-item data-field control-set">
+
+<div class="label-block">
+<label for="ui-config-display-clue-counts">Display clue counts on board</label>
+</div>
+
+<div class="control-block">
+
+<select name="ui-config[display_clue_counts]" id="ui-config-display-clue-counts" data-param-type="bool">
+
+{{#option}}<option value="1" data-param="config.display_clue_counts">Yes</option>{{/option}}
+
+{{#option}}<option value="0" data-param="config.display_clue_counts">No</option>{{/option}}
+
+</select>
+
+</div>
+<!-- .control-block -->
+
+</div>
+<!-- .data-item -->
+
+</form>
+<!-- #game-config -->
+
+</div>
+<!-- .column#game-controls -->

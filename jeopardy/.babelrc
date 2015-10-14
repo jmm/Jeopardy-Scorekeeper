@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "lib/babel-plugin",
+    "test/**"
+  ],
+  "plugins": [
+    "babel-plugin-ensure-cjs-named-default-export"
+  ]
+}

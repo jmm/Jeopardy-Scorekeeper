@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "babel-plugin-ensure-cjs-named-default-export",
+  "version": "0.0.0",
+  "main": "ensure-cjs-named-default-export.js"
+}

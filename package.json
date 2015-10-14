@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "license": "MIT",
+  "author": "Jesse McCarthy (http://software.jessemccarthy.net/)",
+  "devDependencies": {
+    "babelify": "^6.1.3",
+    "babel-eslint": "^4.1.0",
+    "babel-plugin-ensure-cjs-named-default-export":
+      "file:./babel-plugin-ensure-cjs-named-default-export",
+    "backbone": "~1.2.1",
+    "browserify": "8.x",
+    "bulkify": "^1.0.0",
+    "chai": "^3.2.0",
+    "del": "^1.0.0",
+    "eslintify": "0.0.2",
+    "exorcist": "^0.1.6",
+    "globby": "^3.0.0",
+    "gulp": "gulpjs/gulp#4.0",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-if": "1.x",
+    "gulp-uglify": "^1.0.2",
+    "hoganify": "0.2.0",
+    "hogan.js": "^3.0.2",
+    "jeopardy": "file:./jeopardy",
+    "jquery": "2.x",
+    "mocha": "^2.2.5",
+    "pathmodify": "0.4.x",
+    "sinon": "^1.15.4",
+    "underscore": "~1.8.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^3.0.0"
+  }
+}

@@ -1,0 +1,72 @@
+<div class="dialog" id="dialog-daily-double">
+
+<div class="prompt">
+Daily Double
+</div>
+<!-- .prompt -->
+
+
+<form id="wager-form" autocomplete="off">
+
+<div class="data-field control-set data-field-wager wager-minimum">
+
+<label><input type="radio" name="wager" value="{{wagers.minimum}}" /> Minimum: <span class="wager">${{wagers.minimum}}</span></label>
+
+</div>
+<!-- .data-field -->
+
+
+<div class="data-field control-set data-field-wager wager-natural selected">
+
+<label><input type="radio" name="wager" value="{{wagers.natural}}" checked="checked" /> Natural Clue Value: <span class="wager">${{wagers.natural}}</span></label>
+
+</div>
+<!-- .data-field -->
+
+
+{{#wagers.maximum}}
+
+<div class="data-field control-set data-field-wager wager-maximum">
+
+<label><input type="radio" name="wager" value="{{wagers.maximum}}" /> Maximum: <span class="wager">${{wagers.maximum}}</span></label>
+
+</div>
+<!-- .data-field -->
+
+{{/wagers.maximum}}
+
+
+{{#wagers.true_daily_double}}
+
+<div class="data-field control-set data-field-wager wager-true">
+
+<label><input type="radio" name="wager" value="{{wagers.true_daily_double}}" /> True Daily Double: <span class="wager">${{wagers.true_daily_double}}</span></label>
+
+</div>
+<!-- .data-field -->
+
+{{/wagers.true_daily_double}}
+
+
+<div class="data-field control-set data-field-wager wager-custom">
+
+<label><input type="radio" name="wager" value="" /> Custom: </label>
+
+$<input type="number" name="custom_wager" id="custom-wager" size="8" />
+
+</div>
+<!-- .data-field -->
+
+</form>
+
+
+<button class="button right" type="button"><span class="label">Right</span></button>
+
+<button class="button skip" type="button"><span class="label">Skip</span></button>
+
+<button class="button wrong" type="button"><span class="label">Wrong</span></button>
+
+<button class="button cancel" type="button"><span class="label">Cancel</span></button>
+
+</div>
+<!-- #dialog-daily-double -->

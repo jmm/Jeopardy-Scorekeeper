@@ -1,0 +1,25 @@
+<tr class="player">
+
+<td class="player">
+{{^live}}<input type="text" name="player[{{id}}][name]" value="{{name}}" size="12" />{{/live}}{{#live}}{{name}}{{/live}}
+</td>
+
+<td class="score before">
+<input type="number" name="player[{{id}}][score]" value="{{working_score}}" size="8" />
+</td>
+
+<td class="wager">
+<input type="number" name="player[{{id}}][wager]" value="{{wager}}" size="8" />
+</td>
+
+<td class="correct">
+
+<label class="right"><input type="checkbox" name="player[{{id}}][correct]" value="1" {{#correct}}checked{{/correct}} /></label>
+
+</td>
+
+
+<td class="score after">{{score}}</td>
+
+</tr>
+<!-- .player -->

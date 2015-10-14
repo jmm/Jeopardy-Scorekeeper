@@ -1,0 +1,13 @@
+A web-based Jeopardy scorekeeper, for training to be on Jeopardy or playing
+competitive DVR Jeopardy.
+
+A lot of effort has been put into making good keyboard navigation, e.g. for
+laptops, but support for mobile devices (e.g. touch input and lower resolutions)
+probably has room for improvement.
+
+This software is developed by and Copyright (c) 2010-2015 Jesse McCarthy
+<http://www.jessemccarthy.net/>
+
+"JEOPARDY!" is a trademark of Jeopardy Productions, Inc. This software is not
+endorsed by, sponsored by, or affiliated with Jeopardy Productions, Inc. The
+licenses provided apply only to the software, not to any trademark.

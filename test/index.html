@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Jeopardy Scorekeeper Tests</title>
+
+<link rel="stylesheet" href="/test/lib/mocha/mocha.css" />
+
+</head>
+
+
+<body>
+
+<div id="mocha"></div>
+
+<script src="/test/lib/mocha/mocha.js"></script>
+<script src="/test/lib/chai/chai.js"></script>
+<script src="/test/lib/sinon/pkg/sinon.js"></script>
+<script>mocha.setup('bdd')</script>
+<script src="/app/rsrc/libs.js"></script>
+
+<script src="/app/rsrc/app.js"></script>
+
+<script src="bundle.js"></script>
+<script>
+  mocha.checkLeaks();
+  mocha.globals(['jQuery*']);
+
+  (window.mochaPhantomJS || mocha).run();
+</script>
+
+</body>
+
+</html>

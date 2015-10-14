@@ -1,0 +1,1 @@
+These classes decorate collections with view related logic, such as adding and removing views in sync with models.
