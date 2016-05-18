@@ -1,0 +1,472 @@
+body {
+  background-color: #E5E5E5;
+  color: #000000;
+  font-family: "Verdana", "Arial", sans-serif;
+  font-size: 1em;
+  margin: 0;
+  padding: 0 0 1em;
+}
+
+#primary-layout {
+  width: 50em;
+  margin: 0 auto;
+  position: relative;
+}
+
+#primary-document-heading {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.5em;
+  background-color: #262626;
+  color: #FFFFFF;
+}
+
+#beta-label {
+  font-family: "Courier New", monospace;
+  color: #CCCCCC;
+}
+
+#game {
+  position: relative;
+  margin: 0.5em 0 0;
+}
+
+#game:after {
+  content: "*";
+  font-size: 0;
+  display: block;
+  height: 0;
+  clear: both;
+  overflow: hidden;
+}
+
+#game > .column {
+  float: left;
+  min-height: 0.1em;
+}
+
+#game > #column-game-controls {
+  width: 35%;
+}
+
+#game > #column-board {
+  width: 35%;
+}
+
+#game > #column-round-and-players {
+  width: 28%;
+}
+
+#board {
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
+  width: 6em;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#board .column {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#board .cell {
+  margin: 0 0 1px;
+}
+
+#board .cell button {
+  padding: 2em 0;
+  background-color: #606080;
+  color: #BFBFBF;
+  cursor: default;
+  display: block;
+  width: 100%;
+}
+
+#board .cell button:focus {
+  background-color: #6060BF;
+}
+
+#board.enabled .cell.enabled button {
+  cursor: pointer;
+  background-color: #00007F;
+  color: #FFD400;
+}
+
+#board.enabled .cell.enabled button:hover,
+#board.enabled .cell.enabled button:focus {
+  background-color: #0000FF;
+}
+
+#round-and-players .section .primary-section-heading {
+  font-size: 1.4em;
+  margin: 0 0 1em;
+  padding: 0;
+}
+
+#players {
+  min-width: 14em;
+}
+
+#players .player {
+  margin: 0 0 1em;
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+#players .player:hover {
+  background-color: #99CCFF;
+}
+
+#players .player.has-control {
+  background-color: #FFFF99;
+}
+
+#players .player .name,
+#players .player .score {
+  width: 8.5em;
+}
+
+#players .player .name input,
+#players .player .score input {
+  font-size: 1em;
+  border-style: none;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+}
+
+#players .player .name {
+  border: 1px #000000;
+  border-style: none none solid;
+}
+
+#players .player .score {
+  text-align: left;
+  font-size: 1.2em;
+}
+
+#players .player .score input {
+  text-align: right;
+  width: 60%;
+  display: inline;
+}
+
+#players .player .delete,
+#players .player .set-has-control {
+  font-size: 0.8em;
+  text-align: left;
+  margin: 0.5em 0 0;
+  display: none;
+}
+
+#players .player .delete.enabled,
+#players .player .set-has-control.enabled {
+  display: block;
+}
+
+#players .player:hover .set-has-control a {
+  color: #0000FF;
+}
+
+#players .player:hover .set-has-control a:hover {
+  color: #FF0000;
+}
+
+#players .player:hover .set-has-control {
+  visibility: visible;
+}
+
+#players .player .set-has-control,
+#players .player.has-control .set-has-control {
+  visibility: hidden;
+}
+
+#section-players .add-player {
+  display: none;
+}
+
+#section-players .add-player.enabled {
+  display: block;
+}
+
+.dialog {
+  width: 20.5em;
+  padding: 2em 4em;
+  margin: 0 auto;
+  left: 0;
+  top: 0;
+  background-color: #FFFFFF;
+  border: #7F7F7F solid 0.5em;
+}
+
+.dialog.enabled {
+  display: block;
+}
+
+.dialog .prompt {
+  margin: -0.25em 0 1em;
+  text-align: center;
+  font-size: 2em;
+  padding: 0 0.5em 0 0;
+}
+
+.button {
+  font-family: inherit;
+  font-size: 1em;
+  border-style: none;
+}
+
+button::-moz-focus-inner {
+  border-style: none;
+}
+
+.dialog .button {
+  cursor: pointer;
+  width: 9em;
+  display: inline-block;
+  padding: 2em 0;
+  color: #FFFFFF;
+  background-color: #000000;
+  text-align: center;
+  text-decoration: none;
+  margin: 0 0.5em 1em;
+}
+
+.dialog .button:hover,
+.dialog .button:focus {
+  background-color: #303030;
+}
+
+.dialog .button .label {
+  padding: 0.25em 0;
+}
+
+.dialog .button:focus .label {
+  border: 1px #FFFFFF;
+  border-style: solid none;
+}
+
+.dialog .button.right {
+  background-color: #007F00;
+}
+
+.dialog .button.right:hover,
+.dialog .button.right:focus {
+  background-color: #00AF00;
+}
+
+.dialog .button.wrong {
+  background-color: #7F0000;
+}
+
+.dialog .button.wrong:hover,
+.dialog .button.wrong:focus {
+  background-color: #AF0000;
+}
+
+.dialog .button.skip {
+  background-color: #805600;
+}
+
+.dialog .button.skip:hover,
+.dialog .button.skip:focus {
+  background-color: #B07500;
+}
+
+#dialog-clue .current-player {
+  text-align: center;
+}
+
+#dialog-clue .button.disabled,
+#dialog-clue .button.disabled:hover,
+#dialog-clue .button.disabled:focus {
+  background-color: #AAAAAA;
+}
+
+#dialog-clue .button.daily-double {
+  background-color: #00007F;
+}
+
+#dialog-clue .button.daily-double:hover,
+#dialog-clue .button.daily-double:focus {
+  background-color: #0000AF;
+}
+
+#dialog-daily-double #wager-form {
+  margin: 0 0 2em;
+}
+
+#dialog-daily-double .current-player {
+  text-align: center;
+}
+
+#dialog-daily-double #wager-form,
+#dialog-daily-double #wager-form input[type="number"] {
+  font-size: 1.2em;
+}
+
+#dialog-daily-double #wager-form input[type="number"] {
+  width: 8em;
+}
+
+#dialog-daily-double #wager-form .data-field {
+  margin: 0 0 0.5em;
+  padding: 0.5em 0;
+}
+
+#dialog-daily-double #wager-form .data-field.selected {
+  background-color: #FFFF99;
+}
+
+#dialog-daily-double #wager-form .data-field.focused {
+  background-color: #99CCFF;
+}
+
+#dialog-final-jeopardy {
+  width: 36em;
+  text-align: center;
+}
+
+#dialog-final-jeopardy .players-table {
+  text-align: left;
+  margin: 0 0 1em;
+}
+
+#dialog-final-jeopardy .players-table th {
+  font-size: 0.9em;
+  padding: 0.5em 0.5em 0.5em 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+#dialog-final-jeopardy .players input[type="text"],
+#dialog-final-jeopardy .players input[type="number"] {
+  font-size: 1em;
+}
+
+#dialog-final-jeopardy .players input[type="number"] {
+  width: 6em;
+}
+
+#dialog-final-jeopardy .players-table .numeric,
+#dialog-final-jeopardy .players-table td.score input[type="number"] {
+  text-align: right;
+}
+
+#dialog-final-jeopardy td.correct {
+  text-align: center;
+}
+
+#dialog-final-jeopardy td.correct .right {
+  background-color: #99FF99;
+  padding: 0.5em;
+  display: inline-block;
+}
+
+#dialog-final-jeopardy td.correct .right.focused {
+  background-color: #9999FF;
+}
+
+#dialog-final-jeopardy button {
+  display: none;
+}
+
+#dialog-final-jeopardy button.enabled {
+  display: inline-block;
+}
+
+#dialog-final-jeopardy button.finish {
+  background-color: #007F00;
+}
+
+#dialog-final-jeopardy button.finish:hover,
+#dialog-final-jeopardy button.finish:focus {
+  background-color: #00AF00;
+}
+
+#dialog-final-jeopardy button.close {
+  background-color: #7F0000;
+}
+
+#dialog-final-jeopardy button.close:hover,
+#dialog-final-jeopardy button.close:focus {
+  background-color: #AF0000;
+}
+
+#dialog-final-jeopardy button.reset {
+  background-color: #805600;
+}
+
+#dialog-final-jeopardy button.reset:hover,
+#dialog-final-jeopardy button.reset:focus {
+  background-color: #B07500;
+}
+
+#game-controls button {
+  width: 9em;
+  display: inline-block;
+  padding: 2em 0;
+  color: #FFFFFF;
+  text-align: center;
+  text-decoration: none;
+  margin: 0 0 1em;
+}
+
+#start-game {
+  background-color: #007F00;
+}
+
+#start-game:hover,
+#start-game:focus {
+  background-color: #00AF00;
+}
+
+#start-game:disabled {
+  background-color: #5F7F5F;
+}
+
+#end-game,
+#end-round {
+  background-color: #7F0000;
+}
+
+#end-game:hover,
+#end-round:hover,
+#end-game:focus,
+#end-round:focus{
+  background-color: #AF0000;
+}
+
+#end-game:disabled,
+#end-round:disabled {
+  background-color: #806060;
+}
+
+#admin-game #change-current-player .label {
+  margin: 0 0 0.5em;
+}
+
+#admin-game #daily-doubles-remaining {
+  margin: 1em 0;
+}
+
+#game-config {
+  display: block;
+}
+
+#game-config h1 {
+  font-size: 1em;
+}
+
+#game-config .data-item {
+  margin: 0 0 1em;
+}
+
+#conclusion {
+  clear: both;
+  padding: 2em 0;
+}

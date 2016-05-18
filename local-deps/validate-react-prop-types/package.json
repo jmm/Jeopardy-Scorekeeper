@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "validate-react-prop-types",
+  "license": "MIT",
+  "author": "Jesse McCarthy (http://software.jessemccarthy.net/)",
+  "version": "0.1.0",
+  "devDependencies": {
+    "babel-register": "^6.0.0",
+    "babel-preset-es2015": "^6.0.0",
+    "babel-preset-react": "^6.0.0",
+    "mocha": "^2.0.0",
+    "react": "^15.0.0",
+    "react-addons-test-utils": "^15.0.0",
+    "react-dom": "^15.0.0",
+    "sinon": "^1.0.0"
+  },
+  "main": "validate-react-prop-types.js",
+  "files": [
+    "package.json",
+    "LICENSE",
+    "validate-react-prop-types.js",
+    "validate.js"
+  ],
+
+  "scripts": {
+    "test": "mocha --ui tdd --require test/init.js 'test/unit/validate.spec.js'"
+  }
+}

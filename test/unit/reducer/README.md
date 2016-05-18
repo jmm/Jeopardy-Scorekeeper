@@ -1,0 +1,1 @@
+These are for testing the inputs and outputs while controlling the key dependency, `app/reduce` ("sub reducer"), that reducers call to compute their return value. Mocks are used to check the values the reducer sends to sub reducers and return canned values. The reducer is tested for making expected calls to sub reducers with expected values and for returning the expected value.

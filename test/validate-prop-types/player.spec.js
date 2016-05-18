@@ -1,0 +1,95 @@
+"use strict";
+
+var _ = require("lodash");
+var Component = require("app/component/presentational/player");
+var React = require("react");
+var test = require("tape");
+var util = require("util");
+var validatePropTypes = require("validate-react-prop-types").validate;
+
+var desc;
+var suiteDesc = "component/player : ";
+
+function noop () {}
+
+var baseProps = {
+  score: 100,
+  index: 0,
+  changeName: noop,
+  changeScore: noop,
+};
+
+test(suiteDesc + "Correctly validates valid propTypes", function (t) {
+  var props = [
+    _.assign({}, baseProps),
+  ];
+
+  props.forEach(function (props) {
+    t.ok(validatePropTypes(
+      <Component {...props} />
+    ).valid, "Validating " + util.inspect(props));
+  });
+
+  t.end();
+});
+
+test(suiteDesc + "Correctly validates invalid propTypes", function (t) {
+  var props = [
+    {},
+    {score: 100},
+    {score: "100"},
+  ];
+
+  props.forEach(function (props) {
+    t.ok(validatePropTypes.quiet(
+      <Component {...props} />
+    ).error, "Validating " + util.inspect(props));
+  });
+
+  t.end();
+});
+
+test(suiteDesc + "Correctly validates missing required props", function (t) {
+  var props = [
+    {},
+  ];
+
+  Object.keys(baseProps).forEach(function (key) {
+    var spec = _.assign({}, baseProps);
+    delete spec[key];
+    props.push(spec);
+  });
+
+  props.forEach(function (props) {
+    t.ok(validatePropTypes.quiet(
+      <Component {...props} />
+    ).error, "Validating " + util.inspect(props));
+  });
+
+  t.end();
+});
+
+desc = suiteDesc + "Correctly validates selected invalid propTypes";
+test(desc, function (t) {
+  var props = [
+    {takeControl: false},
+    {delete: false},
+    {changeName: false},
+    {changeScore: false},
+    {name: 1},
+    {score: "100"},
+    {index: "1"},
+    {hasControl: "1"},
+    {delete: false},
+    {takeControl: false},
+  ];
+
+  props.forEach(function (props) {
+    t.ok(validatePropTypes.quiet(
+      <Component {...props} />,
+      {whitelist: Object.keys(props)}
+    ).error, "Validating " + util.inspect(props));
+  });
+
+  t.end();
+});
