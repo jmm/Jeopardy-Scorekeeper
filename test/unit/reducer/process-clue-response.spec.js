@@ -17,11 +17,9 @@ var desc;
  * @return object clue
  */
 function getClue (state, clue) {
-  return state.rounds.slice(-1)[0].board[
-    clue.categoryId
-  ][
-    clue.id
-  ];
+  return state.rounds.slice(-1)[0].board
+    [clue.categoryId]
+    [clue.id];
 }
 
 var clue = {
@@ -98,10 +96,7 @@ actionTypes.change_player_score = function (state, action) {
   state = update(state, {
     players: {
       0: {
-        score: {$set:
-          actionTypes.SANITIZE_SCORE(state) +
-          state.players[state.current_player].score
-        }
+        score: {$set: action.payload.score}
       }
     }
   });
@@ -199,7 +194,13 @@ test(desc, function (t) {
   t.equal(
     state.players[state.current_player].score,
 
-    actionTypes.CHANGE_PLAYER_SCORE(baseState, baseAction)
+    actionTypes.CHANGE_PLAYER_SCORE(baseState, update(baseAction, {
+      payload: {
+        score: {$set:
+          baseState.players[baseState.current_player].score + clue.value
+        }
+      }
+    }))
     .players[baseState.current_player].score,
 
     "Score is correctly updated"
@@ -354,6 +355,83 @@ test(suiteDesc + "Finishes promoted daily doubles", function (t) {
     getClue(state, action.payload).enabled,
     false,
     "Clue is disabled"
+  );
+
+  t.end();
+});
+
+desc = suiteDesc +
+  "Emits correct score for deductable incorrect promoted daily double";
+
+test(desc, function (t) {
+  var state = update(baseState, {
+    deduct_incorrect_clue: {$set: false},
+    deduct_incorrect_daily_double: {$set: true},
+  });
+
+  var action = update(baseAction, {
+    payload: {
+      playerId: {$set: 0},
+      responseType: {$set: "wrong"},
+      dailyDouble: {$set: true},
+      clue: {$set: {
+        enabled: true,
+        value: 600,
+      }},
+    }
+  });
+
+  state = reduce(state, action);
+
+  t.equal(
+    state.players[action.payload.playerId].score,
+
+    baseState.players[action.payload.playerId].score -
+      action.payload.clue.value,
+
+    "New player score is correct"
+  );
+
+  t.end();
+});
+
+desc = suiteDesc +
+  "Emits correct score for deductable incorrect natural daily double";
+
+test(desc, function (t) {
+  var state = update(baseState, {
+    deduct_incorrect_clue: {$set: false},
+    deduct_incorrect_daily_double: {$set: true},
+    rounds: {
+      0: {
+        board: {
+          0: {
+            0: {
+              dailyDouble: {$set: true}
+            }
+          }
+        }
+      }
+    }
+  });
+
+  var action = update(baseAction, {
+    payload: {
+      playerId: {$set: 0},
+      responseType: {$set: "wrong"},
+      clue: {$set: state.rounds[0].board[0][0]},
+    }
+  });
+
+  state = reduce(state, action);
+
+  t.equal(
+    state.players[action.payload.playerId].score,
+
+    baseState.players[action.payload.playerId].score -
+      action.payload.clue.value,
+
+    "New player score is correct"
   );
 
   t.end();

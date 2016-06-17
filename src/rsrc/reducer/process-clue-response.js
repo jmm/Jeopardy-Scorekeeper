@@ -18,6 +18,9 @@ function factory (opts) {
       action.payload.clue
     );
 
+    var dailyDouble = action.payload.dailyDouble ||
+      action.payload.clue && action.payload.clue.dailyDouble;
+
     var scoreAddend = opts.getReducer(null)(clue.value, {
       type: "SANITIZE_SCORE",
     });
@@ -26,7 +29,10 @@ function factory (opts) {
 
     if (
       responseType === "skip" ||
-      responseType === "wrong" && !state.deduct_incorrect_clue
+      responseType === "wrong" && (
+        dailyDouble && !state.deduct_incorrect_daily_double ||
+        !dailyDouble && !state.deduct_incorrect_clue
+      )
     ) {
       scoreAddend *= 0;
     }
@@ -61,8 +67,7 @@ function factory (opts) {
       // Every player has responded.
       state.current_clue.players.length === state.players.length ||
       responseType === "right" ||
-      action.payload.dailyDouble ||
-      action.payload.clue && action.payload.clue.dailyDouble
+      dailyDouble
     ) {
       state = opts.getReducer()(state, {
         type: "FINISH_CLUE",
