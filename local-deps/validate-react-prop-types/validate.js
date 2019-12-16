@@ -5,7 +5,7 @@ Validate a React element's props against the component's propTypes.
 var assign = Object.assign;
 var React = require("react");
 
-var errMsgSignature = "Failed propType: ";
+var errMsgSignature = "Failed prop type: ";
 
 module.exports = validate;
 

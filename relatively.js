@@ -1,3 +1,5 @@
+"use strict";
+
 var path = require("path");
 
 require("relatively")({
@@ -11,7 +13,7 @@ require("relatively")({
     {
       type: "dir",
       from: "app",
-      to: path.join(__dirname, "src", "rsrc"),
+      to: path.join(__dirname, "src"),
     }
   ]
 });

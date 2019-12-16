@@ -1,6 +1,5 @@
 "use strict";
 
-var _ = require("lodash");
 var assign = Object.assign;
 var Component = require("app/component/presentational/dialog/final-jeopardy");
 var React = require("react");
@@ -8,7 +7,6 @@ var test = require("tape");
 var util = require("util");
 var validatePropTypes = require("validate-react-prop-types").validate;
 
-var desc;
 var suiteDesc = "component/dialog/final-jeopardy : ";
 
 function noop () {}
@@ -52,20 +50,24 @@ test(suiteDesc + "Missing required props fail", function (t) {
 });
 
 test(suiteDesc + "Invalid props fail", function (t) {
-  var invalidProps = {
-    players: {},
-    players: [1],
-    num_tv_players: "3",
-    sanitizeScore: false,
-    endGame: false,
-  };
+  var invalidPropGroups = [
+    {players: {}},
+    {players: [1]},
+    {num_tv_players: "3"},
+    {sanitizeScore: false},
+    {endGame: false},
+  ];
 
-  Object.keys(invalidProps).forEach(function (key) {
-    var props = {};
-    props[key] = invalidProps[key];
-    t.equal(validatePropTypes.quiet(<Component {...props} />, {
-      whitelist: [key],
-    }).error.react.prop, key, "Invalid " + key + " fails");
+  invalidPropGroups.forEach(invalidProps => {
+    Object.entries(invalidProps).forEach(function ([key, value]) {
+      const props = {[key]: value};
+
+      const validation = validatePropTypes.quiet(<Component {...props} />, {
+        whitelist: [key],
+      }).error.react.prop
+
+      t.equal(validation, key, `Invalid ${key} fails`);
+    })
   });
 
   t.end();

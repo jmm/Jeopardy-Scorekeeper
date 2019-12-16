@@ -36,11 +36,10 @@ test(desc, function (t) {
   var index = 0;
 
   var componentNode;
-  var component;
 
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
-      <Component store={store} index={index} ref={ref => component = ref} />
+      <Component store={store} index={index} />
     </div>
   );
 
@@ -78,13 +77,12 @@ test(desc, function (t) {
   var store = createTestStore();
 
   var componentNode;
-  var component;
 
   var index = 0;
 
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
-      <Component store={store} index={index} ref={ref => component = ref} />
+      <Component store={store} index={index} />
     </div>
   );
 
@@ -117,13 +115,12 @@ test(desc, function (t) {
   var store = createTestStore();
 
   var componentNode;
-  var component;
 
   var index = 0;
 
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
-      <Component store={store} index={index} ref={ref => component = ref} />
+      <Component store={store} index={index} />
     </div>
   );
 
@@ -169,14 +166,13 @@ test(desc, function (t) {
   var store = createTestStore();
 
   var componentNode;
-  var component;
 
   var index = 0;
   var state = store.getState();
 
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
-      <Component store={store} index={index} ref={ref => component = ref} />
+      <Component store={store} index={index} />
     </div>
   );
 

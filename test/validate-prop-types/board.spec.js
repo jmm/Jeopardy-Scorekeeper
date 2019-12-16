@@ -1,6 +1,5 @@
 "use strict";
 
-var _ = require("lodash");
 var Component = require("app/component/presentational/board");
 var React = require("react");
 var test = require("tape");

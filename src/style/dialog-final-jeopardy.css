@@ -1,0 +1,80 @@
+#dialog-final-jeopardy {
+  width: 36em;
+  text-align: center;
+
+  & .players-table {
+    text-align: left;
+    margin: 0 0 1em;
+
+    & th {
+      font-size: 0.9em;
+      padding: 0.5em 0.5em 0.5em 0;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    & .numeric,
+    & td.score input[type="number"] {
+      text-align: right;
+    }
+  }
+
+  & .players {
+    & :matches(
+      input[type="text"],
+      input[type="number"]
+    ) {
+      font-size: 1em;
+    }
+
+    & input[type="number"] {
+      width: 6em;
+    }
+  }
+
+  & td.correct {
+    text-align: center;
+
+    & .right {
+      background-color: #99FF99;
+      padding: 0.5em;
+      display: inline-block;
+
+      .focused {
+        background-color: #9999FF;
+      }
+    }
+  }
+
+  & button {
+    display: none;
+
+    &.enabled {
+      display: inline-block;
+    }
+
+    &.finish {
+      background-color: var(--color-button-dark-green);
+
+      &:matches(:hover, :focus) {
+        background-color: var(--color-button-bright-green);
+      }
+    }
+
+    &.close {
+      background-color: var(--color-button-dark-red);
+
+      &:matches(:hover, :focus) {
+        background-color: var(--color-button-bright-red);
+      }
+    }
+
+    &.reset {
+      background-color: var(--color-button-dark-brown);
+
+      &:matches(:hover, :focus) {
+        background-color: var(--color-button-bright-brown);
+      }
+    }
+  }
+}

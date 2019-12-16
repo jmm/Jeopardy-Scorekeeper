@@ -1,12 +1,12 @@
 "use strict";
 
-var game = require("app/reducer/game");
-var reduce = require("app/reducer/change-config").factory();
+var gameReducer = require("app/reducer/game").reducer;
+var {factory: change_config_factory} = require("app/reducer/change-config");
 var test = require("tape");
 var update = require("react-addons-update");
 
 var desc;
-var baseState = game.factory().reducer();
+var baseState = gameReducer();
 
 var baseAction = {
   type: "CHANGE_CONFIG",
@@ -22,6 +22,10 @@ params.valid = `
 params.invalid = Object.keys(baseState).filter(
   key => params.valid.indexOf(key) < 0
 );
+
+const reduce = change_config_factory({
+  whitelist: params.valid,
+})
 
 var suiteDesc = "reducer/change-config : ";
 

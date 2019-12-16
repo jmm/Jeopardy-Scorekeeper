@@ -1,6 +1,6 @@
 "use strict";
 
-var game = require("app/reducer/game");
+var gameReducer = require("app/reducer/game").reducer;
 var reduce = require("app/reducer/add-players").reducer;
 var test = require("tape");
 var update = require("react-addons-update");
@@ -14,7 +14,7 @@ var fixtures = {
 };
 
 var desc;
-var baseState = game.factory().reducer();
+var baseState = gameReducer();
 
 var baseAction = {
   type: "ADD_PLAYERS",
@@ -47,7 +47,7 @@ function testAddPlayers (opts) {
 
   var totalPlayers = state.players.concat(newPlayers);
 
-  var state = reduce(state, update(baseAction, {
+  state = reduce(state, update(baseAction, {
     payload: {
       players: {$set: newPlayers}
     }

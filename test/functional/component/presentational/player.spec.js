@@ -24,7 +24,6 @@ test(desc, function (t) {
   var index = 0;
 
   var componentNode;
-  var component;
   var props = assign({}, requiredProps, {
     changeScore: sinon.spy(),
   });
@@ -32,7 +31,7 @@ test(desc, function (t) {
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
       <Component
-        index={index} ref={ref => component = ref}
+        index={index}
         {...props}
       />
     </div>
@@ -60,7 +59,6 @@ test(desc, function (t) {
   var index = 0;
 
   var componentNode;
-  var component;
   var props = assign({}, requiredProps, {
     changeName: sinon.spy(),
   });
@@ -68,7 +66,7 @@ test(desc, function (t) {
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
       <Component
-        index={index} ref={ref => component = ref}
+        index={index}
         {...props}
       />
     </div>
@@ -96,7 +94,6 @@ test(desc, function (t) {
   var index = 0;
 
   var componentNode;
-  var component;
   var props = assign({}, requiredProps, {
     takeControl: sinon.spy(),
   });
@@ -104,7 +101,7 @@ test(desc, function (t) {
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
       <Component
-        index={index} ref={ref => component = ref}
+        index={index}
         {...props}
       />
     </div>
@@ -128,7 +125,6 @@ test(desc, function (t) {
   var index = 0;
 
   var componentNode;
-  var component;
   var props = assign({}, requiredProps, {
     delete: sinon.spy(),
   });
@@ -136,7 +132,7 @@ test(desc, function (t) {
   ReactTestUtils.renderIntoDocument(
     <div ref={ref => componentNode = ref}>
       <Component
-        index={index} ref={ref => component = ref}
+        index={index}
         {...props}
       />
     </div>

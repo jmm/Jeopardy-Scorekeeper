@@ -9,8 +9,6 @@ var util = require("util");
 var validatePropTypes = require("validate-react-prop-types")
   .validate.factory({quiet: true});
 
-function noop () {}
-
 var suiteDesc = "component/game-current-clue : ";
 
 // The required props with valid values.

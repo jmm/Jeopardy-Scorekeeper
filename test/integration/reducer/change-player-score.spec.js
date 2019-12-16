@@ -2,7 +2,7 @@
 
 var _ = require("lodash");
 var fixtures = require("./fixture/player-score");
-var reduce = require("app/reducer/change-player-score");
+var {reducer} = require("app/reducer/change-player-score");
 var test = require("tape");
 var update = require("react-addons-update");
 

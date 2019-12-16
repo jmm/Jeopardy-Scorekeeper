@@ -1,12 +1,13 @@
 "use strict";
 
-var _ = require("lodash");
-var assign = Object.assign;
-var reduce = require("app/reducer/process-daily-double-response");
-var sinon = require("sinon");
+var {reducer: reduce} = require("app/reducer/process-daily-double-response");
 var test = require("tape");
 var update = require("react-addons-update");
-var upperCaseKeys = require("app/util/upper-case-keys");
+
+var clue = {
+  value: 600,
+  enabled: true,
+};
 
 var baseState = {
   min_daily_double_wager: 5,
@@ -14,7 +15,7 @@ var baseState = {
   rounds: [
     {
       max_clue_value: 1000,
-      board: [[{}]],
+      board: [[clue]],
     }
   ],
   players: [
@@ -22,6 +23,10 @@ var baseState = {
       score: 2000,
     }
   ],
+
+  current_clue: {
+    players: [],
+  },
 };
 
 var baseAction = {
@@ -32,7 +37,9 @@ var baseAction = {
     responseType: "right",
     clue: {
       value: null,
-    }
+    },
+    categoryId: 0,
+    id: 0,
   },
 };
 
@@ -62,52 +69,13 @@ actionTypes.PROCESS_CLUE_RESPONSE.return = update(baseState, {
   players: {
     0: {
       score: {$set:
-        actionTypes.NORMALIZE_DAILY_DOUBLE_WAGER.return +
-        baseState.players[0].score
+        baseState.players[0].score * 2,
       }
     }
   }
 });
 
-function subReduce (state, action) {
-  var value = actionTypes[action.type].return;
-  if (value) return value;
-  return state;
-}
-
-var spy = subReduce = sinon.spy(subReduce);
-
-reduce = reduce.factory({
-  getReducer: () => subReduce,
-});
-
 var suiteDesc = "reducer/process-daily-double-response : ";
-
-test(suiteDesc + "Correctly invokes sub reducer(s)", function (t) {
-  spy.reset();
-
-  function makeAction (payload) {
-    return update(baseAction, {
-      payload: payload,
-    });
-  }
-
-  var newState = reduce(baseState, makeAction({}));
-
-  t.equal(
-    spy.callCount,
-    Object.keys(actionTypes).length,
-    "Sub reducer called correct number of times"
-  );
-
-  Object.keys(actionTypes).forEach(function (type, i) {
-    var action = spy.args[i][1];
-    t.equal(action.type, type, "Correct action.type");
-    t.deepEqual(action.payload, actionTypes[type].payload, "Correct payload");
-  });
-
-  t.end();
-});
 
 test(suiteDesc + "Returns updated state", function (t) {
   // In other words, test that it allows a true daily double when the wager is

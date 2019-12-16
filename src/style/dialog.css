@@ -1,0 +1,62 @@
+.dialog {
+  width: 20.5em;
+  padding: 2em 4em;
+  margin: 0 auto;
+  left: 0;
+  top: 0;
+  background-color: #FFFFFF;
+  border: #7F7F7F solid 0.5em;
+
+  & .prompt {
+    margin: -0.25em 0 1em;
+    text-align: center;
+    font-size: 2em;
+    padding: 0 0.5em 0 0;
+  }
+
+  & .button {
+    display: inline-block;
+    color: #FFFFFF;
+    background-color: #000000;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 0.5em 1em;
+
+    &:matches(:hover, :focus) {
+      background-color: #303030;
+    }
+
+    & .label {
+      padding: 0.25em 0;
+    }
+
+    &:focus .label {
+      border: 1px #FFFFFF;
+      border-style: solid none;
+    }
+
+    &.right {
+      background-color: var(--color-button-dark-green);
+
+      &:matches(:hover, :focus) {
+        background-color: var(--color-button-bright-green);
+      }
+    }
+
+    &.wrong {
+      background-color: var(--color-button-dark-red);
+
+      &:matches(:hover, :focus) {
+        background-color: var(--color-button-bright-red);
+      }
+    }
+
+    &.skip {
+      background-color: var(--color-button-dark-brown);
+
+      &:matches(:hover, :focus) {
+        background-color: var(--color-button-bright-brown);
+      }
+    }
+  }
+}

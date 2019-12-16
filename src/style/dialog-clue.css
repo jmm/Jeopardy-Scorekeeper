@@ -1,0 +1,23 @@
+#dialog-clue {
+  & .current-player {
+    text-align: center;
+  }
+
+  & .button {
+    &.disabled {
+      background-color: var(--color-button-disabled);
+
+      &:matches(:hover, :focus) {
+        background-color: var(--color-button-disabled);
+      }
+    }
+
+    &.daily-double {
+      background-color: var(--color-button-dark-blue);
+
+      &:matches(:hover, :focus) {
+        background-color: #0000AF;
+      }
+    }
+  }
+}

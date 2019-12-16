@@ -2,7 +2,6 @@
 
 var assign = Object.assign;
 var Component = require("app/component/presentational/game-current-clue");
-var enzyme = require("enzyme");
 var React = require("react");
 var ReactTestUtils = require("react-addons-test-utils")
 var test = require("tape");

@@ -6,7 +6,6 @@ var enzyme = require("enzyme");
 var Model = require("app/model/player");
 var React = require("react");
 var test = require("tape");
-var util = require("util");
 
 var suiteDesc = "component/player : ";
 var desc;

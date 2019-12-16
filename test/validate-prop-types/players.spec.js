@@ -7,10 +7,7 @@ var test = require("tape");
 var util = require("util");
 var validatePropTypes = require("validate-react-prop-types").validate;
 
-var desc;
 var suiteDesc = "component/players : ";
-
-function noop () {}
 
 var baseProps = {
 };

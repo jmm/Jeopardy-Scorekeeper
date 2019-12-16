@@ -1,6 +1,5 @@
 "use strict";
 
-var _ = require("lodash");
 var Component = require("app/component/presentational/cell");
 var React = require("react");
 var test = require("tape");
@@ -12,14 +11,6 @@ var desc;
 var suiteDesc = "component/cell : ";
 
 function noop () {}
-
-var baseProps = {
-  index: 0,
-  clue_value: 200,
-  label: 200,
-  clue_count: 6,
-  openClue: noop,
-};
 
 test(suiteDesc + "Correctly validates valid propTypes", function (t) {
   var props = [

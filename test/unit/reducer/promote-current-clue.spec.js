@@ -1,6 +1,5 @@
 "use strict";
 
-var assign = Object.assign;
 var reduce = require("app/reducer/promote-current-clue").reducer;
 var test = require("tape");
 

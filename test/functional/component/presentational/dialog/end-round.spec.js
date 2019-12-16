@@ -20,8 +20,6 @@ var requiredProps = {
 
 desc = suiteDesc + "calls close handler";
 test(desc, function (t) {
-  var componentNode;
-  var component;
   var props = assign({}, requiredProps, {
     close: sinon.spy(),
   });
@@ -51,8 +49,6 @@ test(desc, function (t) {
 
 desc = suiteDesc + "calls end round handler";
 test(desc, function (t) {
-  var componentNode;
-  var component;
   var props = assign({}, requiredProps, {
     endRound: sinon.spy(),
   });

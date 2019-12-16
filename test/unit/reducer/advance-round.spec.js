@@ -1,35 +1,12 @@
 "use strict";
 
 var assign = Object.assign;
-var game = require("app/reducer/game");
-var reduce = require("app/reducer/advance-round");
-var sinon = require("sinon");
+var gameReducer = require("app/reducer/game").reducer;
+var reduce = require("app/reducer/advance-round").reducer;
 var test = require("tape");
 var update = require("react-addons-update");
-var upperCaseKeys = require("app/util/upper-case-keys");
 
-var actionTypes = {};
-actionTypes.set_current_player = function (state, action) {
-  state = assign({}, state, {
-    current_player: action.payload.index,
-  });
-  return state;
-};
-
-upperCaseKeys(actionTypes);
-
-function subReduce (state, action) {
-  return actionTypes[action.type](state, action);
-}
-
-var spy = subReduce = sinon.spy(subReduce);
-
-reduce = reduce.factory({
-  getReducer: () => subReduce,
-});
-
-var baseState = game.factory().reducer();
-
+var baseState = gameReducer();
 var suiteDesc = "reducer/advance-round : ";
 var desc;
 
@@ -77,7 +54,7 @@ test(suiteDesc + "Uses custom board", function (t) {
   var action = {
     type: "ADVANCE_ROUND",
     payload: {
-      board: [[,,,]],
+      board: [[{},{},{},{}]],
     }
   };
 
@@ -192,7 +169,6 @@ test(suiteDesc + "Uses default current player", function (t) {
     `${suiteDesc} ${spec.desc} [change_round_player_method: ${spec.change_round_player_method}]`;
 
   test(desc, function (t) {
-    spy.reset();
     var state;
     // If testing change to highest scored player, start with lowest scored
     // player (index 1) as current.
@@ -223,12 +199,6 @@ test(suiteDesc + "Uses default current player", function (t) {
     state = reduce(state, {
       type: "ADVANCE_ROUND",
     });
-
-    t.equal(
-      spy.callCount,
-      Math.abs(spec.change_round_player_method),
-      `Sub reducer ${spec.change_round_player_method ? "" : "not"} called`
-    );
 
     t.equal(
       state.current_player,

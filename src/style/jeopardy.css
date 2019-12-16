@@ -1,0 +1,208 @@
+@import "./board";
+@import "./players";
+@import "./dialog";
+@import "./dialog-clue";
+@import "./dialog-daily-double";
+@import "./dialog-final-jeopardy";
+
+:root {
+  --color-button-bright-red: #AF0000;
+  --color-button-dark-red: #7F0000;
+
+  --color-button-bright-blue: #0000FF;
+  --color-button-dark-blue: #00007F;
+
+  --color-button-bright-green: #00AF00;
+  --color-button-dark-green: #007F00;
+
+  --color-button-bright-brown: #B07500;
+  --color-button-dark-brown: #805600;
+
+  --color-button-disabled: #AAAAAA;
+
+  --color-selected-item: #FFFF99;
+  --color-focused-item: #99CCFF;
+}
+
+body {
+  background-color: #E5E5E5;
+  color: #000000;
+  font-family: "Verdana", "Arial", sans-serif;
+  font-size: 1em;
+  margin: 0;
+  padding: 0 0 1em;
+}
+
+#primary-layout {
+  width: 50em;
+  margin: 0 auto;
+  position: relative;
+}
+
+#primary-document-heading {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.5em;
+  background-color: #262626;
+  color: #FFFFFF;
+}
+
+#beta-label {
+  font-family: "Courier New", monospace;
+  color: #CCCCCC;
+}
+
+#game {
+  position: relative;
+  margin: 0.5em 0 0;
+
+  & > .column {
+    float: left;
+    min-height: 0.1em;
+    margin-right: 0.5em;
+  }
+}
+
+#game:after {
+  content: "*";
+  font-size: 0;
+  display: block;
+  height: 0;
+  clear: both;
+  overflow: hidden;
+}
+
+#game-controls {
+  width: 34%;
+}
+
+#board-container {
+  width: 34%;
+}
+
+.horizontal-board {
+  & #board-container {
+    width: auto;
+  }
+
+  & > #round-and-players {
+    width: 62%;
+  }
+}
+
+#round-and-players {
+  width: 28%;
+}
+
+#board-container.column #board,
+#board-container:not(.column) .cell {
+  width: 6em;
+}
+
+#board-container:not(.column) .cell {
+  display: inline-block;
+}
+
+#round-and-players .section .primary-section-heading {
+  font-size: 1.4em;
+  margin: 0 0 1em;
+  padding: 0;
+}
+
+#section-players {
+  & .add-player {
+    display: none;
+
+    &.enabled {
+      display: block;
+    }
+  }
+}
+
+.button,
+#players .player {
+  transition: background-color 150ms;
+}
+
+.button {
+  font-family: inherit;
+  font-size: 1em;
+  border-style: none;
+  padding: 2em 0.5em;
+  box-sizing: content-box;
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  border-style: none;
+}
+
+#game-controls button,
+.dialog .button {
+  width: 8em;
+}
+
+#game-controls {
+  & button {
+    display: inline-block;
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 0 1em;
+  }
+}
+
+#start-game-controls {
+  & button {
+    background-color: var(--color-button-dark-green);
+
+    &:matches(:hover, :focus) {
+      background-color: var(--color-button-bright-green);
+    }
+
+    &:disabled {
+      background-color: #5F7F5F;
+    }
+  }
+}
+
+#end-game,
+#end-round {
+  background-color: var(--color-button-dark-red);
+
+  &:matches(:hover, :focus) {
+    background-color: var(--color-button-dark-red);
+  }
+
+  &:disabled {
+    background-color: #806060;
+  }
+}
+
+#admin-game {
+  & #change-current-player .label {
+    margin: 0 0 0.5em;
+  }
+
+  & #daily-doubles-remaining {
+    margin: 1em 0;
+  }
+}
+
+#game-config {
+  display: block;
+
+  & h1 {
+    font-size: 1em;
+  }
+
+  & .data-item {
+    margin: 0 0 1em;
+  }
+}
+
+#conclusion {
+  clear: both;
+  padding: 2em 0;
+}

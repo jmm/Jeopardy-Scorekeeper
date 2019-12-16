@@ -33,12 +33,8 @@ var baseProps = {
 desc = suiteDesc + "Shallow renders correctly [!dailyDouble]";
 test(desc, function (t) {
   var props = assign({}, baseProps);
-
   var el = <Component {...props} />;
-
   var wrapper = enzyme.shallow(el);
-
-  var cells = wrapper.childAt(0).children();
 
   t.equal(
     wrapper.find(".daily-double").length,
@@ -67,12 +63,8 @@ test(desc, function (t) {
 desc = suiteDesc + "Shallow renders correctly [dailyDouble]";
 test(desc, function (t) {
   var props = assign({openDailyDouble: noop}, baseProps);
-
   var el = <Component {...props} />;
-
   var wrapper = enzyme.shallow(el);
-
-  var cells = wrapper.childAt(0).children();
 
   t.equal(
     wrapper.find(".daily-double").length,

@@ -40,7 +40,7 @@ test(desc, function (t) {
 
   t.assert(
     wrapped.find(".count").text() === `(${props.clue_count})`,
-    "Correct clue count text not found"
+    "Correct clue count text found"
   );
 
   t.end();
@@ -59,7 +59,7 @@ test(desc, function (t) {
 
   t.assert(
     wrapped.find(".count").text() === `(${props.clue_count})`,
-    "Correct clue count text not found"
+    "Correct clue count text found"
   );
 
   t.end();
@@ -67,14 +67,9 @@ test(desc, function (t) {
 
 desc = suiteDesc + "Shallow renders correctly [openClue, !clue_count]";
 test(desc, function (t) {
-  var props = _.assign({}, baseProps, {clue_count: 6});
-
+  var props = _.assign({}, baseProps, {clue_count: undefined});
   var el = <Component {...props} />;
-
   var wrapped = enzyme.shallow(el);
-  var rendered = wrapped.get(0);
-
-  t.assert(!wrapped.some(".count"), "Included count");
-
+  t.assert(!wrapped.find(".count").length, "Omitted count");
   t.end();
 });

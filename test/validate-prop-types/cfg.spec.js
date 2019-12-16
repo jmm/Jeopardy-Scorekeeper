@@ -14,20 +14,26 @@ function noop () {}
 var suiteDesc = "component/cfg : ";
 
 // The required props with valid values.
-var baseProps = {
+var requiredProps = {
   deduct_incorrect_clue: true,
   deduct_incorrect_daily_double: true,
   change_round_player_method: 0,
   changeConfig: noop,
+  ui: {},
+};
+
+const optionalProps = {
   ui: {
     display_clue_counts: true,
   },
 };
 
-test(suiteDesc + "Correctly validates valid propTypes", function (t) {
-  var props = _.assign({}, baseProps);
+const baseProps = {...requiredProps, ...optionalProps};
 
-  var validation = validatePropTypes(<Component {...baseProps} />);
+test(suiteDesc + "Correctly validates valid propTypes", function (t) {
+  var props = _.assign({}, requiredProps);
+
+  var validation = validatePropTypes(<Component {...props} />);
   t.ok(
     validation.valid,
     "Validating " + util.inspect(props)
@@ -36,9 +42,9 @@ test(suiteDesc + "Correctly validates valid propTypes", function (t) {
 });
 
 test(suiteDesc + "Correctly validates selected valid propTypes", function (t) {
-  var props = Object.keys(baseProps).map(function (key) {
+  var props = Object.keys(requiredProps).map(function (key) {
     var spec = {};
-    spec.key = baseProps[key];
+    spec.key = requiredProps[key];
     return spec;
   });
 
@@ -54,8 +60,8 @@ test(suiteDesc + "Correctly validates selected valid propTypes", function (t) {
 });
 
 test(suiteDesc + "Missing required props fail", function (t) {
-  Object.keys(baseProps).forEach(function (key) {
-    var props = assign({}, baseProps);
+  Object.keys(requiredProps).forEach(function (key) {
+    var props = assign({}, requiredProps);
     delete props[key];
 
     var validation = validatePropTypes.quiet(<Component {...props} />, {
@@ -66,10 +72,10 @@ test(suiteDesc + "Missing required props fail", function (t) {
       validation.error.react.prop, key, `Errors on correct prop "${key}"`
     );
 
-    if (_.isPlainObject(baseProps[key])) {
-      (Object.keys(baseProps[key]) || []).forEach(subKey => {
+    if (_.isPlainObject(requiredProps[key])) {
+      (Object.keys(requiredProps[key]) || []).forEach(subKey => {
         var props = {};
-        props[key] = assign({}, baseProps[key]);
+        props[key] = assign({}, requiredProps[key]);
         delete props[key][subKey];
 
         validation = validatePropTypes.quiet(<Component {...props} />, {

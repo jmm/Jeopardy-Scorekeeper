@@ -1,0 +1,28 @@
+#dialog-daily-double {
+  & #wager-form {
+    margin: 0 0 2em;
+    font-size: 1.2em;
+
+    input[type="number"] {
+      font-size: 1.2em;
+      width: 8em;
+    }
+
+    & .data-field {
+      margin: 0 0 0.5em;
+      padding: 0.5em 0;
+
+      &.selected {
+        background-color: var(--color-selected-item);
+      }
+
+      &.focused {
+        background-color: var(--color-focused-item);
+      }
+    }
+  }
+
+  & .current-player {
+    text-align: center;
+  }
+}

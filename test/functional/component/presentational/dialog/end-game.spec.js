@@ -10,18 +10,11 @@ var test = require("tape");
 var suiteDesc = "functional/component/presentational/dialog/end-game : ";
 var desc;
 
-function noop () {}
-
-var requiredProps = {
-  close: React.PropTypes.func.isRequired,
-}
-
 desc = suiteDesc + "calls close handler";
 test(desc, function (t) {
-  var componentNode;
-  var component;
-  var props = assign({}, requiredProps, {
+  var props = assign({}, {
     close: sinon.spy(),
+    endGame: sinon.spy(),
   });
 
   var componentNode;

@@ -1,0 +1,44 @@
+#board {
+  width: auto;
+  margin: 0 auto 1em;
+  padding: 0;
+  list-style-type: none;
+  font-size: 1.5em;
+  text-align: center;
+
+  & .column {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  & .cell {
+    margin: 1px;
+
+    & button {
+      padding: 2em 0;
+      background-color: #606080;
+      color: #BFBFBF;
+      cursor: default;
+      display: block;
+      width: 100%;
+
+      &:focus {
+        background-color: #6060BF;
+      }
+    }
+  }
+
+  &.enabled {
+    & .cell.enabled {
+      & button {
+        background-color: var(--color-button-dark-blue);
+        color: #FFD400;
+
+        &:matches(:hover, :focus) {
+          background-color: var(--color-button-bright-blue);
+        }
+      }
+    }
+  }
+}

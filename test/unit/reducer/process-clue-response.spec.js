@@ -1,9 +1,7 @@
 "use strict";
 
-var _ = require("lodash");
 var assign = Object.assign;
-var reduce = require("app/reducer/process-clue-response");
-var sinon = require("sinon");
+var reduce = require("app/reducer/process-clue-response").reducer;
 var test = require("tape");
 var update = require("react-addons-update");
 var upperCaseKeys = require("app/util/upper-case-keys");
@@ -17,9 +15,7 @@ var desc;
  * @return object clue
  */
 function getClue (state, clue) {
-  return state.rounds.slice(-1)[0].board
-    [clue.categoryId]
-    [clue.id];
+  return state.rounds.slice(-1)[0].board[clue.categoryId][clue.id];
 }
 
 var clue = {
@@ -61,36 +57,7 @@ var baseAction = {
   },
 };
 
-// For each action type a function that generates the payload this reducer is
-// expected to send to the action handler reducer.
-var payloads = upperCaseKeys({
-  sanitize_score: function (state, action) {
-    return undefined;
-  },
-
-  change_player_score: function (state, action) {
-    return {
-      index: action.payload.playerId,
-      score:
-        state.players[action.payload.playerId].score +
-        getClue(state, action.payload).value,
-    };
-  },
-
-  finish_clue: function (state, action) {
-    return action.payload;
-  },
-
-  set_current_player: function (state, action) {
-    return {index: action.payload.playerId};
-  },
-});
-
 var actionTypes = {};
-
-actionTypes.sanitize_score= function (state, action) {
-  return state;
-};
 
 actionTypes.change_player_score = function (state, action) {
   state = update(state, {
@@ -104,7 +71,7 @@ actionTypes.change_player_score = function (state, action) {
   return state;
 };
 
-actionTypes.finish_clue = function (state, action) {
+actionTypes.finish_clue = function (state) {
   state = update(state, {
     rounds: {
       0: {
@@ -131,53 +98,7 @@ actionTypes.set_current_player = function (state, action) {
 
 upperCaseKeys(actionTypes);
 
-function subReduce (state, action) {
-  return actionTypes[action.type](state, action);
-}
-
-var spy = subReduce = sinon.spy(subReduce);
-
-reduce = reduce.factory({
-  getReducer: () => subReduce,
-});
-
 var suiteDesc = "reducer/process-clue-response : ";
-
-test(suiteDesc + "Correctly invokes sub reducer(s)", function (t) {
-  spy.reset();
-
-  var action = baseAction;
-  var state = reduce(baseState, action);
-
-  var keys = Object.keys(actionTypes);
-
-  t.equal(
-    spy.callCount,
-    keys.length,
-    "Sub reducers called correct number of times"
-  );
-
-  spy.args.forEach(function (args, i) {
-    var subReduceCall = _.zipObject(["state", "action"], args);
-
-    i = keys.indexOf(subReduceCall.action.type);
-    t.equal(
-      keys.splice(keys.indexOf(subReduceCall.action.type), 1).length,
-      1,
-      "Action type is in expected set"
-    );
-
-    t.deepEqual(
-      subReduceCall.action.payload,
-      payloads[subReduceCall.action.type](baseState, action),
-      `Correct payload for action.type ${subReduceCall.action.type}`
-    );
-  });
-
-  t.equal(keys.length, 0, "All expected action types were invoked.");
-
-  t.end();
-});
 
 desc = suiteDesc + "Correctly processes correct response by current player";
 test(desc, function (t) {

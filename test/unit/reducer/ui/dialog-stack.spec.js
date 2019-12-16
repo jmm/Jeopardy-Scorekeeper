@@ -1,9 +1,7 @@
 "use strict";
 
-var _ = require("lodash");
-var reducer = require("app/reducer/ui/dialog-stack").factory().reducer;
+var reducer = require("app/reducer/ui/dialog-stack").reducer;
 var test = require("tape");
-var update = require("react-addons-update");
 
 /**
  * Assert fresh state that should exist after init or ADVANCE_ROUND.
@@ -73,8 +71,6 @@ test(suiteDesc + "Responds to OPEN_DIALOG|CLOSE_DIALOG correctly", function (t) 
 
 test(suiteDesc + "Responds to ADVANCE_ROUND correctly", function (t) {
   var state = reducer();
-
-  var payloads = [{}, {}];
 
   state = reducer(state, {
     type: "ADVANCE_ROUND",

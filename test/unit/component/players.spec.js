@@ -4,7 +4,6 @@ var Component = require("app/component/presentational/players");
 var enzyme = require("enzyme");
 var React = require("react");
 var test = require("tape");
-var util = require("util");
 
 var suiteDesc = "component/players : ";
 var desc;
